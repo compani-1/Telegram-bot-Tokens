@@ -1,23 +1,21 @@
+"""
+Основная логика бота путешествий
+"""
+
 import random
 import re
-import aiml
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.svm import LinearSVC
-import os
-import logging
-import difflib
-import nltk
-from datetime import datetime, timedelta
-import json
 import sqlite3
-from typing import Dict, List, Any
+from datetime import datetime, timedelta
+import logging
+from typing import Dict, List, Any, Optional
+from config import BOT_CONFIG, DATABASE_NAME, LOG_FILE, LOG_LEVEL
 
 # Настройка логирования
 logging.basicConfig(
-    level=logging.INFO,
+    level=getattr(logging, LOG_LEVEL),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('bot.log', encoding='utf-8'),
+        logging.FileHandler(LOG_FILE, encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -26,7 +24,7 @@ logger = logging.getLogger(__name__)
 # Инициализация базы данных
 def init_database():
     """Инициализация SQLite базы данных для хранения данных"""
-    conn = sqlite3.connect('travel_bot.db')
+    conn = sqlite3.connect(DATABASE_NAME)
     cursor = conn.cursor()
     
     # Таблица пользователей
@@ -49,6 +47,7 @@ def init_database():
             travel_date TEXT,
             booking_number TEXT UNIQUE,
             status TEXT DEFAULT 'confirmed',
+            total_price REAL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (user_id)
         )
@@ -60,6 +59,7 @@ def init_database():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
             promo_id INTEGER,
+            booking_number TEXT,
             used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (user_id)
         )
@@ -71,6 +71,7 @@ def init_database():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
             scenario_id TEXT,
+            booking_number TEXT,
             used_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (user_id)
         )
@@ -84,7 +85,8 @@ def init_database():
             booking_number TEXT,
             service_id INTEGER,
             service_name TEXT,
-            price INTEGER,
+            price REAL,
+            category TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (user_id)
         )
@@ -96,19 +98,25 @@ def init_database():
 # Инициализация базы данных при запуске
 init_database()
 
+
 class DatabaseManager:
     """Менеджер для работы с базой данных"""
     
     @staticmethod
     def save_user(user_data: Dict):
-        conn = sqlite3.connect('travel_bot.db')
+        """Сохраняет пользователя в базу данных"""
+        conn = sqlite3.connect(DATABASE_NAME)
         cursor = conn.cursor()
         try:
             cursor.execute('''
                 INSERT OR REPLACE INTO users (user_id, username, first_name, last_name)
                 VALUES (?, ?, ?, ?)
-            ''', (user_data['user_id'], user_data.get('username'), 
-                  user_data.get('first_name'), user_data.get('last_name')))
+            ''', (
+                user_data['user_id'], 
+                user_data.get('username'), 
+                user_data.get('first_name'), 
+                user_data.get('last_name')
+            ))
             conn.commit()
         except Exception as e:
             logger.error(f"Ошибка сохранения пользователя: {e}")
@@ -117,14 +125,21 @@ class DatabaseManager:
     
     @staticmethod
     def save_booking(booking_data: Dict):
-        conn = sqlite3.connect('travel_bot.db')
+        """Сохраняет бронирование в базу данных"""
+        conn = sqlite3.connect(DATABASE_NAME)
         cursor = conn.cursor()
         try:
             cursor.execute('''
-                INSERT INTO bookings (user_id, destination, travel_date, booking_number)
-                VALUES (?, ?, ?, ?)
-            ''', (booking_data['user_id'], booking_data['destination'],
-                  booking_data['travel_date'], booking_data['booking_number']))
+                INSERT INTO bookings 
+                (user_id, destination, travel_date, booking_number, total_price)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (
+                booking_data['user_id'], 
+                booking_data['destination'],
+                booking_data['travel_date'], 
+                booking_data['booking_number'],
+                booking_data.get('total_price', 0)
+            ))
             conn.commit()
         except Exception as e:
             logger.error(f"Ошибка сохранения бронирования: {e}")
@@ -132,1102 +147,1035 @@ class DatabaseManager:
             conn.close()
     
     @staticmethod
-    def log_promo_usage(user_id: int, promo_id: int):
-        conn = sqlite3.connect('travel_bot.db')
-        cursor = conn.cursor()
-        try:
-            cursor.execute('''
-                INSERT INTO promo_usage (user_id, promo_id)
-                VALUES (?, ?)
-            ''', (user_id, promo_id))
-            conn.commit()
-        except Exception as e:
-            logger.error(f"Ошибка логирования промо-акции: {e}")
-        finally:
-            conn.close()
-    
-    @staticmethod
-    def log_scenario_usage(user_id: int, scenario_id: str):
-        conn = sqlite3.connect('travel_bot.db')
-        cursor = conn.cursor()
-        try:
-            cursor.execute('''
-                INSERT INTO scenario_usage (user_id, scenario_id)
-                VALUES (?, ?)
-            ''', (user_id, scenario_id))
-            conn.commit()
-        except Exception as e:
-            logger.error(f"Ошибка логирования сценария: {e}")
-        finally:
-            conn.close()
-    
-    @staticmethod
     def save_selected_services(user_id: int, booking_number: str, services: List[Dict]):
         """Сохраняет выбранные услуги в базу данных"""
-        conn = sqlite3.connect('travel_bot.db')
+        conn = sqlite3.connect(DATABASE_NAME)
         cursor = conn.cursor()
         try:
             for service in services:
                 cursor.execute('''
-                    INSERT INTO selected_services (user_id, booking_number, service_id, service_name, price)
-                    VALUES (?, ?, ?, ?, ?)
-                ''', (user_id, booking_number, service['id'], service['name'], service['price']))
+                    INSERT INTO selected_services 
+                    (user_id, booking_number, service_id, service_name, price, category)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ''', (
+                    user_id, booking_number, 
+                    service['id'], service['name'], 
+                    service['price'], service.get('category', 'other')
+                ))
             conn.commit()
         except Exception as e:
             logger.error(f"Ошибка сохранения услуг: {e}")
         finally:
             conn.close()
-
-# Инициализация AIML
-try:
-    kernel = aiml.Kernel()
     
-    if os.path.isfile("bot_brain.brn"):
-        kernel.bootstrap(brainFile="bot_brain.brn")
-        logger.info("AIML brain загружен из файла")
-    else:
-        # Создание базовых AIML паттернов
-        kernel.learn("std-startup.xml")
-        kernel.respond("load aiml b")
-        kernel.saveBrain("bot_brain.brn")
-        logger.info("AIML инициализирован с базовыми паттернами")
-except Exception as e:
-    logger.error(f"Ошибка инициализации AIML: {e}")
-    kernel = None
+    @staticmethod
+    def save_scenario_usage(user_id: int, scenario_id: str, booking_number: str):
+        """Сохраняет использование сценария"""
+        conn = sqlite3.connect(DATABASE_NAME)
+        cursor = conn.cursor()
+        try:
+            cursor.execute('''
+                INSERT INTO scenario_usage (user_id, scenario_id, booking_number)
+                VALUES (?, ?, ?)
+            ''', (user_id, scenario_id, booking_number))
+            conn.commit()
+        except Exception as e:
+            logger.error(f"Ошибка сохранения использования сценария: {e}")
+        finally:
+            conn.close()
+    
+    @staticmethod
+    def save_promo_usage(user_id: int, promo_id: int, booking_number: str):
+        """Сохраняет использование промо-акции"""
+        conn = sqlite3.connect(DATABASE_NAME)
+        cursor = conn.cursor()
+        try:
+            cursor.execute('''
+                INSERT INTO promo_usage (user_id, promo_id, booking_number)
+                VALUES (?, ?, ?)
+            ''', (user_id, promo_id, booking_number))
+            conn.commit()
+        except Exception as e:
+            logger.error(f"Ошибка сохранения использования промо-акции: {e}")
+        finally:
+            conn.close()
 
-# Полная конфигурация бота
-BOT_CONFIG = {
-    'intents': {
-        'greeting': {
-            'examples': ['привет', 'здравствуй', 'хай', 'добрый день', 'начать', 'start', 'здравствуйте'],
-            'responses': ['Привет! Я ваш помощник по путешествиям! 🚂', 'Здравствуйте! Готов помочь с планированием поездки!']
-        },
-        'mood_good': {
-            'examples': ['хорошо', 'отлично', 'прекрасно', 'замечательно', 'нормально', 'супер'],
-            'responses': ['Рад слышать!', 'Это прекрасно!']
-        },
-        'mood_bad': {
-            'examples': ['плохо', 'скучно', 'грустно', 'устал', 'не очень', 'ужасно'],
-            'responses': ['Понимаю...', 'Жаль это слышать...']
-        },
-        'travel_interest': {
-            'examples': ['хочу путешествие', 'интересно путешествие', 'давай путешествие', 'поехали'],
-            'responses': ['Отлично!']
-        },
-        'destination_moscow': {
-            'examples': ['москва', 'мск', 'в москву', 'столица'],
-            'responses': ['Москва - отличный выбор! Столица ждет вас!']
-        },
-        'destination_spb': {
-            'examples': ['питер', 'спб', 'санкт-петербург', 'петербург'],
-            'responses': ['Санкт-Петербург - культурная столица! Прекрасный выбор!']
-        },
-        'destination_sochi': {
-            'examples': ['сочи', 'в сочи', 'черноморское'],
-            'responses': ['Сочи - прекрасный курорт! Идеально для отдыха!']
-        },
-        'hotel': {
-            'examples': ['отель', 'гостиница', 'номер', 'жилье', 'где остановиться'],
-            'responses': ['Предлагаем отели разной категории!']
-        },
-        'insurance': {
-            'examples': ['страховка', 'страхование', 'страховку'],
-            'responses': ['Важно иметь страховку в путешествии!']
-        },
-        'food': {
-            'examples': ['еда', 'питание', 'ресторан', 'кухня'],
-            'responses': ['Закажите питание в поезде или рестораны города!']
-        },
-        'entertainment': {
-            'examples': ['развлечения', 'экскурсия', 'достопримечательности'],
-            'responses': ['Много интересных экскурсий ждут вас!']
-        },
-        'transport': {
-            'examples': ['трансфер', 'такси', 'аренда', 'автомобиль'],
-            'responses': ['Организуем транспорт в городе!']
-        },
-        'date_tomorrow': {
-            'examples': ['завтра', 'на завтра', 'послезавтра'],
-            'responses': ['На завтра есть отличные предложения!']
-        },
-        'date_weekend': {
-            'examples': ['выходные', 'на выходные', 'суббота', 'воскресенье'],
-            'responses': ['На выходные всегда есть интересные варианты!']
-        },
-        'date_specific': {
-            'examples': [],
-            'responses': ['На указанную дату есть хорошие предложения!']
-        },
-        'confirm_booking': {
-            'examples': ['бронируй', 'оформляй', 'покупай', 'подтверждаю', 'готов', 'готова', 'готово', 'согласен', 'согласна', 'оформить', 'да'],
-            'responses': ['Отлично! Оформляю ваши билеты!']
-        },
-        'positive_response': {
-            'examples': ['да', 'конечно', 'разумеется', 'угу', 'ага', 'хочу', 'интересно'],
-            'responses': ['Отлично!']
-        },
-        'negative_response': {
-            'examples': ['нет', 'неа', 'не нужно', 'не хочу', 'не интересует', 'пропустим'],
-            'responses': ['Понял.']
-        },
-        'thanks': {
-            'examples': ['спасибо', 'благодарю', 'мерси'],
-            'responses': ['Пожалуйста! Рад был помочь!']
-        },
-        'goodbye': {
-            'examples': ['пока', 'до свидания', 'прощай', 'всего доброго'],
-            'responses': ['До свидания! Хорошего дня!']
-        },
-        'ticket_inquiry': {
-            'examples': ['билеты', 'есть билеты', 'доступны билеты', 'наличие билетов'],
-            'responses': ['Проверяю наличие билетов...']
-        },
-        'promo_interest': {
-            'examples': ['акция', 'скидка', 'промо', 'спецпредложение', 'выгодно'],
-            'responses': ['Отличный выбор! Расскажу о наших акциях!']
-        },
-        'promo_selection': {
-            'examples': ['1', '2', '3', '4', '5', '6', 'первая', 'вторая', 'третья', 'четвертая', 'пятая', 'шестая'],
-            'responses': ['Отлично! Рассказываю подробнее...']
-        },
-        'show_other_promos': {
-            'examples': ['другие', 'другие предложения', 'еще акции', 'следующие', 'показать другие', 'другое'],
-            'responses': ['Показываю другие акции...']
-        },
-        'skip_promos': {
-            'examples': ['пропустить', 'не надо', 'хватит', 'достаточно', 'закончить', 'завершить'],
-            'responses': ['Хорошо, завершаем с акциями.']
-        },
-        'view_ticket': {
-            'examples': ['билет', 'мой билет', 'покажи билет', 'где билет'],
-            'responses': ['Вот ваш электронный билет:']
-        }
-    },
-    'failure_phrases': [
-        'Расскажите больше о ваших планах путешествия! 🚂',
-        'Может, выберете направление: Москва, Санкт-Петербург или Сочи?',
-        'Не совсем понял. Можете уточнить?',
-        'Хотите узнать о наших специальных предложениях?'
-    ],
-    'products': [
-        {
-            'id': 1,
-            'name': 'Билеты на поезд "Стандарт"',
-            'category': 'transport',
-            'price_range': '1500-3000 руб',
-            'description': 'Комфортные места в стандартном вагоне',
-            'features': ['Кондиционер', 'Розетки', 'Откидные столики']
-        },
-        {
-            'id': 2,
-            'name': 'Билеты на поезд "Комфорт"',
-            'category': 'transport',
-            'price_range': '3000-5000 руб',
-            'description': 'Улучшенные условия в вагоне повышенной комфортности',
-            'features': ['Увеличенное пространство', 'Премиум-питание', 'Индивидуальное обслуживание']
-        },
-        {
-            'id': 3,
-            'name': 'Отель "Эконом" 3⭐',
-            'category': 'accommodation',
-            'price_range': '2000-4000 руб/ночь',
-            'description': 'Бюджетное размещение с базовыми удобствами',
-            'features': ['Wi-Fi', 'Завтрак', 'Холодильник']
-        },
-        {
-            'id': 4,
-            'name': 'Отель "Бизнес" 4⭐',
-            'category': 'accommodation',
-            'price_range': '5000-8000 руб/ночь',
-            'description': 'Комфортабельный отель для деловых поездок',
-            'features': ['Спа-зона', 'Бизнес-центр', 'Трансфер']
-        },
-        {
-            'id': 5,
-            'name': 'Отель "Премиум" 5⭐',
-            'category': 'accommodation',
-            'price_range': '9000-15000 руб/ночь',
-            'description': 'Роскошный отель с премиальным сервисом',
-            'features': ['Бассейн', 'Ресторан', 'Консьерж-сервис']
-        },
-        {
-            'id': 6,
-            'name': 'Страховка "Базовая"',
-            'category': 'insurance',
-            'price_range': '500-1000 руб',
-            'description': 'Основное медицинское покрытие',
-            'features': ['Несчастный случай', 'Медицинские расходы']
-        },
-        {
-            'id': 7,
-            'name': 'Страховка "Расширенная"',
-            'category': 'insurance',
-            'price_range': '1500-2500 руб',
-            'description': 'Полное страховое покрытие',
-            'features': ['Отмена поездки', 'Потеря багажа', 'Гражданская ответственность']
-        },
-        {
-            'id': 8,
-            'name': 'Питание "Стандарт"',
-            'category': 'food',
-            'price_range': '1000-2000 руб/день',
-            'description': 'Трехразовое питание в ресторане отеля',
-            'features': ['Шведский стол', 'Напитки включены']
-        },
-        {
-            'id': 9,
-            'name': 'Экскурсия "Обзорная"',
-            'category': 'entertainment',
-            'price_range': '1500-2500 руб',
-            'description': 'Обзорная экскурсия по городу',
-            'features': ['Профессиональный гид', 'Транспорт', '3-4 часа']
-        },
-        {
-            'id': 10,
-            'name': 'Экскурсия "Тематическая"',
-            'category': 'entertainment',
-            'price_range': '3000-5000 руб',
-            'description': 'Специализированная экскурсия',
-            'features': ['Эксперт-гид', 'Входные билеты', 'Индивидуальный маршрут']
-        },
-        {
-            'id': 11,
-            'name': 'Трансфер "Групповой"',
-            'category': 'transport',
-            'price_range': '500-1000 руб',
-            'description': 'Групповой трансфер из аэропорта/вокзала',
-            'features': ['Фиксированное расписание', 'Встреча с табличкой']
-        },
-        {
-            'id': 12,
-            'name': 'Трансфер "Индивидуальный"',
-            'category': 'transport',
-            'price_range': '2000-4000 руб',
-            'description': 'Персональный трансфер',
-            'features': ['Встреча в зале прилета', 'Детское кресло', 'Комфортный автомобиль']
-        }
-    ],
-    'promotions': [
-        {
-            'id': 1,
-            'short': "🏨 Спецпредложение! При бронировании отеля через нас - скидка 15% на проживание!",
-            'full': "🏨 **СПЕЦПРЕДЛОЖЕНИЕ ПО ОТЕЛЯМ!**\n\n• Скидка 15% на все отели категории 3-5 звезд\n• Бесплатный ранний заезд или поздний выезд\n• Комплимент от отеля (фрукты, вино)\n• Бесплатный Wi-Fi на весь период проживания\n\n💡 *Для активации предложения назовите кодовое слово: 'ГОРЯЩИЙ2024'*"
-        },
-        {
-            'id': 2,
-            'short': "🛡️ Страховка со скидкой 30%! Полное покрытие на время путешествия!",
-            'full': "🛡️ **ВЫГОДНАЯ СТРАХОВКА ДЛЯ ПУТЕШЕСТВЕННИКОВ!**\n\n• Скидка 30% на полис страхования\n• Расширенное покрытие: медицина, багаж, отмена поездки\n• Круглосуточная поддержка на русском языке\n• Быстрое урегулирование страховых случаев\n\n⚡ *Предложение действительно при оплате онлайн*"
-        },
-        {
-            'id': 3,
-            'short': "🍽️ Питание включено! Завтраки в отеле бесплатно при раннем бронировании!",
-            'full': "🍽️ **ПИТАНИЕ В ПОДАРОК!**\n\n• Бесплатные завтраки 'шведский стол' в отеле\n• Скидка 25% на ужины в ресторанах-партнерах\n• Бесплатный набор напитков в поезде\n• Детское меню со скидкой 50%\n\n🎁 *Забронируйте за 30 дней до поездки и получите максимум выгоды!*"
-        },
-        {
-            'id': 4,
-            'short': "🎭 Билеты в театр/кино со скидкой 20% для наших туристов!",
-            'full': "🎭 **РАЗВЛЕЧЕНИЯ СО СКИДКОЙ!**\n\n• Скидка 20% на билеты в театры, музеи, кино\n• Бесплатная обзорная экскурсия по городу\n• Приоритетное бронирование популярных экскурсий\n• Специальные цены на развлекательные парки\n\n🏛️ *Покажите электронный билет на поезд для получения скидки*"
-        },
-        {
-            'id': 5,
-            'short': "🚗 Трансфер из аэропорта бесплатно при бронировании отеля!",
-            'full': "🚗 **КОМФОРТНЫЙ ТРАНСПОРТ!**\n\n• Бесплатный трансфер аэропорт-отель-аэропорт\n• Аренда автомобиля со скидкой 40% на первые 3 дня\n• Скидка 25% на такси по городу\n• Бесплатная парковка в отеле на 2 дня\n\n🏎️ *Для активации предложения забронируйте отель через нашего менеджера*"
-        },
-        {
-            'id': 6,
-            'short': "⭐ Бонусная программа! Копите мили за каждую поездку!",
-            'full': "⭐ **ПРОГРАММА ЛОЯЛЬНОСТИ 'ПУТЕШЕСТВЕННИК'!**\n\n• 10% кэшбэк бонусными милями за каждую поездку\n• Скидка 10% на следующее путешествие\n• Приоритетное обслуживание 24/7\n• Специальные предложения только для участников\n• Бесплатные апгрейды при накоплении 1000 миль\n\n💎 *Станьте участником программы - это бесплатно!*"
-        }
-    ],
-    'scenarios': {
-        'family_vacation': {
-            'name': 'Семейный отдых',
-            'description': 'Идеальный вариант для отдыха с детьми',
-            'products': [1, 3, 6, 9, 11],
-            'discount': 15,
-            'features': ['Скидка для детей', 'Семейные номера', 'Детское меню']
-        },
-        'business_trip': {
-            'name': 'Деловая поездка',
-            'description': 'Все для комфортной бизнес-поездки',
-            'products': [2, 4, 7, 12],
-            'discount': 10,
-            'features': ['Быстрое бронирование', 'Бизнес-услуги', 'Гибкие даты']
-        },
-        'romantic_getaway': {
-            'name': 'Романтическое путешествие',
-            'description': 'Незабываемый отдых для пар',
-            'products': [2, 5, 7, 10],
-            'discount': 12,
-            'features': ['Романтический ужин', 'Улучшенный номер', 'Специальные активности']
-        },
-        'budget_travel': {
-            'name': 'Экономный вариант',
-            'description': 'Путешествие с максимальной экономией',
-            'products': [1, 3, 6, 9],
-            'discount': 20,
-            'features': ['Раннее бронирование', 'Групповые экскурсии', 'Эконом-размещение']
-        },
-        'premium_experience': {
-            'name': 'Премиум пакет',
-            'description': 'Путешествие высшего класса',
-            'products': [2, 5, 7, 10, 12],
-            'discount': 8,
-            'features': ['Индивидуальный гид', 'VIP-обслуживание', 'Эксклюзивные локации']
-        }
-    }
-}
+
+class IntentClassifier:
+    """Классификатор намерений на основе ключевых слов"""
+    
+    def __init__(self, config):
+        self.config = config
+        self.intent_keywords = self._build_intent_keywords()
+    
+    def _build_intent_keywords(self):
+        """Строит словарь ключевых слов для каждого намерения"""
+        intent_keywords = {}
+        for intent, data in self.config['intents'].items():
+            keywords = []
+            for example in data.get('examples', []):
+                keywords.extend(example.lower().split())
+            intent_keywords[intent] = list(set(keywords))
+        return intent_keywords
+    
+    def get_intent(self, text: str) -> Optional[str]:
+        """Определяет намерение на основе ключевых слов"""
+        text_lower = text.lower()
+        
+        # Проверяем специальные команды
+        for intent, data in self.config['intents'].items():
+            for example in data.get('examples', []):
+                if example.lower() in text_lower:
+                    return intent
+        
+        # Если не нашли точное совпадение, ищем по ключевым словам
+        best_match = None
+        best_score = 0
+        
+        for intent, keywords in self.intent_keywords.items():
+            score = sum(1 for keyword in keywords if keyword in text_lower)
+            if score > best_score:
+                best_score = score
+                best_match = intent
+        
+        return best_match if best_score > 0 else None
+
 
 class DialogState:
+    """Класс для управления состоянием диалога"""
+    
     def __init__(self, user_id=None):
         self.user_id = user_id
         self.reset()
     
-    def reset(self):
+    def reset(self, clear_cart=False):
+        """Сброс состояния диалога"""
         self.current_state = "start"
+        
+        # Сохраняем корзину если не очищаем
+        cart_items = []
+        if not clear_cart and hasattr(self, 'context'):
+            cart_items = self.context.get('cart_items', [])
+        
         self.context = {
             'destination': None,
             'date': None,
             'date_text': None,
-            'service_type': None,
-            'user_mood': None,
             'booking_confirmed': False,
-            'promo_shown': False,
             'awaiting_promo_selection': False,
             'awaiting_scenario_selection': False,
-            'promo_cycle_count': 0,
-            'ticket_generated': False,
+            'awaiting_date_selection': False,
+            'awaiting_destination_selection': False,
+            'awaiting_confirmation': False,
+            'awaiting_order_confirmation': False,
             'booking_number': None,
             'passenger_name': 'Миша Лукин',
             'passenger_email': 'misha@example.com',
-            'current_promo_id': None,
-            'selected_products': [],
+            'selected_products': [],  # ID продуктов
+            'selected_promos': [],    # ID промо-акций
             'current_scenario': None,
             'total_price': 0,
-            'used_promos': []
+            'cart_items': cart_items,
+            'ticket_details': None,
+            'order_summary': None
         }
         self.conversation_history = []
-        self.current_ticket = None
     
-    def add_to_history(self, user_input, bot_response):
+    def add_to_history(self, user_input: str, bot_response: str):
+        """Добавляет сообщение в историю диалога"""
         self.conversation_history.append({
             'user': user_input,
             'bot': bot_response,
             'timestamp': datetime.now()
         })
     
-    def generate_booking_number(self):
+    def generate_booking_number(self) -> str:
+        """Генерирует уникальный номер бронирования"""
         if not self.context['booking_number']:
             letters = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
             numbers = ''.join(random.choices('0123456789', k=6))
             self.context['booking_number'] = f"{letters}-{numbers}"
         return self.context['booking_number']
     
-    def add_product(self, product_id):
+    def add_to_cart(self, item_type: str, item_id: Any, item_data=None) -> bool:
         """Добавляет товар в корзину"""
-        product = next((p for p in BOT_CONFIG['products'] if p['id'] == product_id), None)
-        if product and product_id not in self.context['selected_products']:
-            self.context['selected_products'].append(product_id)
-            self.calculate_total_price()
-            return True
+        cart_item = {
+            'type': item_type,  # 'product', 'promo', 'ticket'
+            'id': item_id,
+            'added_at': datetime.now(),
+            'data': item_data or {}
+        }
+        
+        # Проверяем, нет ли уже такого товара
+        for item in self.context['cart_items']:
+            if item['type'] == item_type and item['id'] == item_id:
+                return False
+        
+        self.context['cart_items'].append(cart_item)
+        self.update_total_price()
+        return True
+    
+    def remove_from_cart(self, item_type: str, item_id: Any) -> bool:
+        """Удаляет товар из корзины"""
+        for i, item in enumerate(self.context['cart_items']):
+            if item['type'] == item_type and item['id'] == item_id:
+                del self.context['cart_items'][i]
+                self.update_total_price()
+                return True
         return False
     
-    def calculate_total_price(self):
-        """Рассчитывает общую стоимость с учетом скидки сценария"""
-        base_price = len(self.context['selected_products']) * 2000  # Упрощенный расчет
-        discount = 0
+    def clear_cart(self) -> bool:
+        """Очищает корзину"""
+        self.context['cart_items'] = []
+        self.context['total_price'] = 0
+        self.context['current_scenario'] = None
+        return True
+    
+    def update_total_price(self) -> float:
+        """Пересчитывает общую стоимость корзины"""
+        total = 0
         
+        for item in self.context['cart_items']:
+            if item['type'] == 'product':
+                product = next((p for p in BOT_CONFIG['products'] if p['id'] == item['id']), None)
+                if product:
+                    total += product.get('base_price', 0)
+            elif item['type'] == 'ticket' and 'price' in item['data']:
+                total += item['data']['price']
+        
+        # Применяем скидку сценария
         if self.context['current_scenario']:
             scenario = BOT_CONFIG['scenarios'][self.context['current_scenario']]
             discount = scenario['discount']
+            total = total * (1 - discount / 100)
         
-        self.context['total_price'] = base_price * (1 - discount / 100)
+        self.context['total_price'] = round(total, 2)
+        return self.context['total_price']
     
-    def apply_scenario(self, scenario_id):
-        """Применяет сценарий и добавляет соответствующие товары"""
+    def get_cart_summary(self) -> Dict:
+        """Получает сводку по корзине"""
+        products = []
+        promos = []
+        tickets = []
+        
+        for item in self.context['cart_items']:
+            if item['type'] == 'product':
+                product = next((p for p in BOT_CONFIG['products'] if p['id'] == item['id']), None)
+                if product:
+                    products.append(product)
+            elif item['type'] == 'promo':
+                promo = next((p for p in BOT_CONFIG['promotions'] if p['id'] == item['id']), None)
+                if promo:
+                    promos.append(promo)
+            elif item['type'] == 'ticket':
+                tickets.append(item['data'])
+        
+        return {
+            'products': products,
+            'promos': promos,
+            'tickets': tickets,
+            'total_price': self.context['total_price'],
+            'item_count': len(self.context['cart_items'])
+        }
+    
+    def apply_scenario(self, scenario_id: str) -> bool:
+        """Применяет сценарий"""
         if scenario_id in BOT_CONFIG['scenarios']:
             self.context['current_scenario'] = scenario_id
             scenario = BOT_CONFIG['scenarios'][scenario_id]
             
-            # Очищаем и добавляем товары сценария
-            self.context['selected_products'] = []
-            for product_id in scenario['products']:
-                self.add_product(product_id)
+            # Очищаем продукты и добавляем продукты сценария
+            self.context['cart_items'] = [item for item in self.context['cart_items'] 
+                                         if item['type'] != 'product']
             
+            for product_id in scenario['products']:
+                self.add_to_cart('product', product_id)
+            
+            # Добавляем билет
+            ticket_data = self.generate_ticket_data()
+            if ticket_data:
+                # Удаляем старый билет если есть
+                self.context['cart_items'] = [item for item in self.context['cart_items'] 
+                                            if item['type'] != 'ticket']
+                self.add_to_cart('ticket', f"ticket_{self.generate_booking_number()}", ticket_data)
+            
+            self.update_total_price()
             return True
         return False
-
-    def update_state(self, intent, user_input):
-        previous_state = self.current_state
-        
-        if intent == 'destination_moscow':
-            self.context['destination'] = 'Москва'
-            self.current_state = "destination_selected"
-        elif intent == 'destination_spb':
-            self.context['destination'] = 'Санкт-Петербург'
-            self.current_state = "destination_selected"
-        elif intent == 'destination_sochi':
-            self.context['destination'] = 'Сочи'
-            self.current_state = "destination_selected"
-        elif intent in ['date_tomorrow', 'date_weekend', 'date_specific']:
-            self.context['date'] = intent
-            self.context['date_text'] = user_input
-            if self.context['destination']:
-                self.current_state = "ready_for_booking"
-            else:
-                self.current_state = "date_selected"
-        elif intent == 'mood_good':
-            self.context['user_mood'] = 'good'
-            self.current_state = "mood_known"
-        elif intent == 'mood_bad':
-            self.context['user_mood'] = 'bad'
-            self.current_state = "mood_known"
-        elif intent == 'confirm_booking':
-            if all([self.context['destination'], self.context['date']]):
-                self.current_state = "booking_confirmed"
-                self.context['booking_confirmed'] = True
-                self.generate_booking_number()
-                # Генерируем билет сразу при подтверждении
-                self.current_ticket = self.generate_ticket()
-            else:
-                self.current_state = "need_more_info"
-        elif intent == 'positive_response':
-            if previous_state == "ready_for_booking":
-                self.current_state = "booking_confirmed"
-                self.context['booking_confirmed'] = True
-                self.generate_booking_number()
-                self.current_ticket = self.generate_ticket()
-        elif intent == 'promo_interest':
-            self.current_state = "showing_promotions"
-            self.context['awaiting_promo_selection'] = True
-        elif intent == 'promo_selection':
-            if self.context['awaiting_promo_selection']:
-                self.current_state = "showing_promo_details"
-        elif intent == 'show_other_promos':
-            if self.context['awaiting_promo_selection']:
-                self.current_state = "showing_promotions"
-        elif intent == 'skip_promos':
-            self.current_state = "promo_completed"
-            self.context['awaiting_promo_selection'] = False
-        elif intent == 'view_ticket':
-            if self.context['booking_confirmed']:
-                self.current_state = "showing_ticket"
-        
-        logger.info(f"Состояние: {previous_state} -> {self.current_state}")
     
-    def generate_ticket(self):
-        if not self.context['booking_confirmed']:
+    def generate_ticket_data(self) -> Optional[Dict]:
+        """Генерирует данные билета"""
+        if not self.context['destination'] or not self.context['date_text']:
             return None
-            
-        booking_number = self.context['booking_number']
-        destination = self.context['destination']
-        date_text = self.context.get('date_text', 'указанную дату')
-        passenger = self.context['passenger_name']
+        
+        booking_number = self.generate_booking_number()
+        ticket_price = random.randint(1500, 4500)
         
         departure_times = {
             'Москва': ['08:30', '12:45', '16:20', '20:15'],
-            'Санкт-Петербург': ['09:15', '13:30', '17:45', '21:20'],
-            'Сочи': ['07:45', '11:30', '15:15', '19:00']
+            'Санкт-Петербург': ['09:15', '13:30', '17:45', '21:00'],
+            'Сочи': ['07:00', '14:20', '19:10']
         }
         
         arrival_times = {
-            'Москва': ['14:20', '18:35', '22:10', '02:05'],
-            'Санкт-Петербург': ['15:05', '19:20', '23:35', '03:10'],
-            'Сочи': ['13:35', '17:20', '21:05', '00:50']
+            'Москва': ['14:25', '18:40', '22:15', '02:00+1'],
+            'Санкт-Петербург': ['15:45', '20:00', '00:15+1', '03:30+1'],
+            'Сочи': ['23:40', '07:00+1', '11:50+1']
         }
-        
-        departure_time = random.choice(departure_times.get(destination, ['10:00']))
-        arrival_time = random.choice(arrival_times.get(destination, ['16:00']))
         
         train_numbers = {
-            'Москва': ['025А', '104С', '228М', '356П'],
-            'Санкт-Петербург': ['017Б', '112Р', '245К', '378Н'],
-            'Сочи': ['032В', '128Т', '267Л', '394Ф']
+            'Москва': ['001А', '034С', '078Ф', '105В'],
+            'Санкт-Петербург': ['012Д', '045М', '089Р', '112Т'],
+            'Сочи': ['023К', '067Н', '098П']
         }
         
-        train_number = random.choice(train_numbers.get(destination, ['001А']))
-        carriage = random.randint(1, 12)
-        seat = random.randint(1, 36)
-        ticket_price = random.randint(1500, 4500)
+        dest = self.context['destination']
+        idx = random.randint(0, min(
+            len(departure_times.get(dest, ['08:00'])) - 1,
+            len(arrival_times.get(dest, ['14:00'])) - 1,
+            len(train_numbers.get(dest, ['000'])) - 1
+        ))
         
-        stations = {
-            'Москва': {'from': 'Станция "Центральная"', 'to': 'Москва (Курский вокзал)'},
-            'Санкт-Петербург': {'from': 'Станция "Центральная"', 'to': 'Санкт-Петербург (Московский вокзал)'},
-            'Сочи': {'from': 'Станция "Центральная"', 'to': 'Сочи (Железнодорожный вокзал)'}
+        ticket_data = {
+            'booking_number': booking_number,
+            'destination': dest,
+            'date': self.context['date_text'],
+            'passenger': self.context['passenger_name'],
+            'train_number': train_numbers[dest][idx],
+            'departure_time': departure_times[dest][idx],
+            'arrival_time': arrival_times[dest][idx],
+            'wagon': random.randint(1, 15),
+            'seat': random.randint(1, 36),
+            'price': ticket_price,
+            'created_at': datetime.now().strftime("%d.%m.%Y %H:%M")
         }
         
-        station_info = stations.get(destination, {'from': 'Станция отправления', 'to': 'Станция назначения'})
+        return ticket_data
+
+
+class TravelBot:
+    """Основной класс бота путешествий"""
+    
+    def __init__(self):
+        self.config = BOT_CONFIG
+        self.classifier = IntentClassifier(self.config)
+        self.states = {}
+        logger.info("Бот путешествий инициализирован")
+    
+    def get_state(self, user_id: int) -> DialogState:
+        """Получение состояния диалога для пользователя"""
+        if user_id not in self.states:
+            self.states[user_id] = DialogState(user_id)
+        return self.states[user_id]
+    
+    def process_message(self, user_input: str, user_data: Dict = None) -> str:
+        """Обработка сообщения пользователя"""
+        if not user_input or not user_input.strip():
+            return "Пожалуйста, напишите что-нибудь! ✍️"
         
-        # Базовый билет
-        ticket = f"""
-🎫 ============================================
-      ЭЛЕКТРОННЫЙ ЖЕЛЕЗНОДОРОЖНЫЙ БИЛЕТ
-============================================ 🎫
-
-📋 НАПРАВЛЕНИЕ:
-   🚂 {station_info['from']} → {station_info['to']}
-
-👤 ПАССАЖИР: {passenger}
-
-📅 ДАТА ПОЕЗДКИ: {date_text}
-⏰ ВРЕМЯ: {departure_time} - {arrival_time}
-
-🔢 НОМЕР ПОЕЗДА: {train_number}
-🚇 ВАГОН: {carriage}
-💺 МЕСТО: {seat}
-
-💰 СТОИМОСТЬ БИЛЕТА: {ticket_price} руб.
-💳 СТАТУС: ОПЛАЧЕНО ✅
-
-📊 КОД БРОНИРОВАНИЯ: {booking_number}
-🆔 ID БИЛЕТА: TK{random.randint(100000, 999999)}
-"""
+        user_input = user_input.strip()
         
-        # Добавляем информацию о выбранных услугах, если они есть
-        additional_services = []
-        total_additional_cost = 0
-        
-        # Проверяем выбранные продукты в корзине
-        if self.context['selected_products']:
-            ticket += "\n\n🎁 **ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ:**\n"
-            for product_id in self.context['selected_products']:
-                product = next((p for p in BOT_CONFIG['products'] if p['id'] == product_id), None)
-                if product:
-                    service_price = random.randint(500, 2000)  # Примерная цена услуги
-                    total_additional_cost += service_price
-                    ticket += f"   • {product['name']} - {service_price} руб.\n"
-        
-        # Проверяем примененный сценарий
-        if self.context['current_scenario']:
-            scenario = BOT_CONFIG['scenarios'][self.context['current_scenario']]
-            ticket += f"\n🎯 **ПАКЕТ УСЛУГ:** {scenario['name']}\n"
-            ticket += f"   📝 {scenario['description']}\n"
-            ticket += f"   💰 Скидка по пакету: {scenario['discount']}%\n"
-        
-        # Добавляем информацию о примененных промо-акциях
-        if self.context['used_promos']:
-            ticket += f"\n🎊 **АКТИВИРОВАННЫЕ АКЦИИ:**\n"
-            for promo_id in self.context['used_promos']:
-                promo = next((p for p in BOT_CONFIG['promotions'] if p['id'] == promo_id), None)
-                if promo:
-                    # Извлекаем короткое описание (первую строку)
-                    short_desc = promo['short'].split('\n')[0]
-                    ticket += f"   • {short_desc}\n"
-        # Итоговая стоимость
-        total_cost = ticket_price + total_additional_cost
-        if total_additional_cost > 0:
-            ticket += f"\n💰 **ОБЩАЯ СТОИМОСТЬ:** {total_cost} руб."
-            ticket += f"\n   (билет: {ticket_price} руб. + услуги: {total_additional_cost} руб.)"
+        # Сохранение данных пользователя
+        if user_data:
+            DatabaseManager.save_user(user_data)
+            user_id = user_data['user_id']
         else:
-            ticket += f"\n💰 **ОБЩАЯ СТОИМОСТЬ:** {total_cost} руб."
+            user_id = 1  # Значение по умолчанию для тестирования
         
-        # Добавляем стандартную информацию
-        ticket += """
+        state = self.get_state(user_id)
+        state.add_to_history(user_input, "")
         
-💡 ПРАВИЛА ПОСАДКИ:
-• Прибыть на станцию за 40 минут до отправления
-• Иметь при себе документ, удостоверяющий личность
-• Распечатать билет или показать на экране устройства
-
-📞 СЛУЖБА ПОДДЕРЖКИ: 8-800-555-35-35
-
-============================================
-         СЧАСТЛИВОГО ПУТИ! 🚂✨
-============================================
-"""
-        return ticket
-
-    def get_next_question(self):
-        if self.current_state == "booking_confirmed" and not self.context['promo_shown']:
-            return None
+        # Проверка на специальные команды
+        special_response = self._handle_special_commands(user_input, state)
+        if special_response:
+            return special_response
         
-        questions = {
-            "start": "Привет! Как ваше настроение сегодня? 🚂",
-            "mood_known": {
-                'good': "Рад слышать! Хотите отправиться в путешествие? 🚆",
-                'bad': "Понимаю... Путешествие поднимет настроение! Хотите поехать? 🚆"
-            },
-            "interested_in_travel": "Куда хотели бы поехать? (Москва, Санкт-Петербург, Сочи)",
-            "destination_selected": f"Отлично - {self.context['destination']}! На когда планируете?",
-            "date_selected": "Выберите направление: Москва, Санкт-Петербург или Сочи?",
-            "ready_for_booking": "Готовы к бронированию?",
-            "need_more_info": "Нужно выбрать направление и дату для бронирования.",
-            "showing_promotions": "Выберите номер акции для подробностей (1-6):",
-            "showing_promo_details": "Хотите оформить эту услугу, посмотреть другие предложения или завершить? (оформить/другие/завершить)"
-        }
+        # Проверка на ожидание подтверждения заказа
+        if state.context.get('awaiting_order_confirmation'):
+            return self._handle_order_confirmation(user_input, state, user_id)
         
-        question = questions.get(self.current_state)
-        if isinstance(question, dict):
-            return question.get(self.context['user_mood'], "Хотите путешествие?")
-        return question
-
-dialog_state = DialogState()
-
-def get_promo_by_number(number):
-    try:
-        index = int(number) - 1
-        if 0 <= index < len(BOT_CONFIG['promotions']):
-            return BOT_CONFIG['promotions'][index]
-    except (ValueError, IndexError):
-        pass
-    return None
-
-def get_promo_response():
-    response = "🎉 **СПЕЦИАЛЬНЫЕ ПРЕДЛОЖЕНИЯ!** 🎉\n\n"
-    
-    for i, promo in enumerate(BOT_CONFIG['promotions'], 1):
-        response += f"{i}. {promo['short']}\n"
-    
-    response += "\n💎 Выберите номер акции (1-6) для подробной информации!"
-    return response
-
-def get_other_promos_response():
-    response = "🔄 **ДРУГИЕ ПРЕДЛОЖЕНИЯ:**\n\n"
-    
-    for i, promo in enumerate(BOT_CONFIG['promotions'], 1):
-        response += f"{i}. {promo['short']}\n"
-    
-    response += "\n📋 Выберите номер акции или напишите 'завершить':"
-    return response
-
-def clear_phrase(phrase):
-    phrase = phrase.lower()
-    alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя- '
-    return ''.join(symbol for symbol in phrase if symbol in alphabet)
-
-def is_date_string(text):
-    patterns = [
-        r'\b\d{1,2}\.\d{1,2}\.\d{4}\b',
-        r'\b\d{1,2}\.\d{1,2}\.\d{2}\b',
-        r'\b\d{1,2}\.\d{1,2}\b',
-        r'\b\d{1,2}[/-]\d{1,2}[/-]\d{4}\b',
-    ]
-    if any(re.search(pattern, text.lower()) for pattern in patterns):
-        return True
-    date_words = ['завтра', 'послезавтра', 'выходные', 'суббота', 'воскресенье']
-    return any(word in text.lower() for word in date_words)
-
-def extract_date_type(text):
-    text_lower = text.lower()
-    if 'завтра' in text_lower or 'послезавтра' in text_lower:
-        return 'date_tomorrow'
-    elif any(word in text_lower for word in ['выходные', 'суббота', 'воскресенье']):
-        return 'date_weekend'
-    else:
-        return 'date_specific'
-
-def simple_classify_intent(replica):
-    replica_lower = replica.lower().strip()
-    
-    # Проверка просмотра билета
-    if any(word in replica_lower for word in ['билет', 'мой билет', 'покажи билет']):
-        return 'view_ticket'
-    
-    # Проверка промо-акций
-    if any(word in replica_lower for word in ['другие', 'еще', 'следующие', 'другое']):
-        return 'show_other_promos'
-    if any(word in replica_lower for word in ['завершить', 'хватит', 'достаточно', 'пропустить']):
-        return 'skip_promos'
-    if any(word in replica_lower for word in ['оформить', 'брать', 'хочу эту']):
-        return 'positive_response'
-    
-    # Номера промо-акций
-    if replica_lower in ['1', '2', '3', '4', '5', '6']:
-        return 'promo_selection'
-    
-    # Даты
-    if is_date_string(replica_lower):
-        return extract_date_type(replica_lower)
-    
-    # Подтверждение бронирования
-    confirm_keywords = ['готов', 'готова', 'готово', 'бронируй', 'оформляй', 'покупай', 'подтверждаю', 'согласен', 'согласна', 'да']
-    if any(keyword in replica_lower for keyword in confirm_keywords):
-        return 'confirm_booking'
-    
-    # Интерес к акциям
-    if any(keyword in replica_lower for keyword in ['акция', 'скидка', 'промо', 'спецпредложение']):
-        return 'promo_interest'
-    
-    # Настроение
-    mood_keywords = {
-        'mood_good': ['хорошо', 'отлично', 'прекрасно', 'замечательно'],
-        'mood_bad': ['плохо', 'скучно', 'грустно', 'устал']
-    }
-    for intent, keywords in mood_keywords.items():
-        if any(keyword in replica_lower for keyword in keywords):
-            return intent
-    
-    # Направления
-    destination_keywords = {
-        'destination_moscow': ['москва', 'мск'],
-        'destination_spb': ['питер', 'спб', 'санкт-петербург'],
-        'destination_sochi': ['сочи']
-    }
-    for intent, keywords in destination_keywords.items():
-        if any(keyword in replica_lower for keyword in keywords):
-            return intent
-    
-    # Простые ответы
-    simple_keywords = {
-        'positive_response': ['да', 'конечно', 'угу', 'ага', 'хочу', 'интересно'],
-        'negative_response': ['нет', 'неа', 'не хочу', 'не интересует'],
-        'thanks': ['спасибо', 'благодарю'],
-        'goodbye': ['пока', 'до свидания']
-    }
-    for intent, keywords in simple_keywords.items():
-        if any(keyword in replica_lower for keyword in keywords):
-            return intent
-    
-    return None
-
-def get_contextual_response(intent, user_input, user_id=None):
-    dialog_state.update_state(intent, user_input)
-    
-    # Обработка просмотра билета
-    if intent == 'view_ticket':
-        if dialog_state.current_ticket:
-            response = "🎫 **ВАШ ЭЛЕКТРОННЫЙ БИЛЕТ**\n\n" + dialog_state.current_ticket
-            response += "\n📧 Билет также отправлен на вашу электронную почту"
-        else:
-            response = "❌ Билет еще не оформлен. Давайте сначала завершим бронирование!"
-        dialog_state.add_to_history(user_input, response)
+        # Проверка на ожидание подтверждения бронирования
+        if state.context.get('awaiting_confirmation'):
+            return self._handle_booking_confirmation(user_input, state, user_id)
+        
+        # Проверка на выбор сценария
+        if state.context['awaiting_scenario_selection']:
+            return self._handle_scenario_selection(user_input, state, user_id)
+        
+        # Проверка на выбор промо-акции
+        if state.context['awaiting_promo_selection']:
+            return self._handle_promo_selection(user_input, state, user_id)
+        
+        # Проверка на выбор даты
+        if state.context['awaiting_date_selection']:
+            return self._handle_date_selection(user_input, state)
+        
+        # Проверка на выбор направления
+        if state.context['awaiting_destination_selection']:
+            return self._handle_destination_selection(user_input, state)
+        
+        # Определение намерения
+        intent = self.classifier.get_intent(user_input)
+        
+        # Обработка намерения
+        response = self._generate_response(intent, user_input, state, user_id)
+        
         return response
     
-    # Обработка промо-акций
-    if intent == 'show_other_promos' and dialog_state.context['awaiting_promo_selection']:
-        response = get_other_promos_response()
-        dialog_state.add_to_history(user_input, response)
-        return response
-    
-    if intent == 'skip_promos':
-        if dialog_state.context['booking_confirmed']:
-            response = "✅ Хорошо, завершаем с акциями!\n\n"
-            response += "🎊 **БРОНИРОВАНИЕ ЗАВЕРШЕНО!**\n\n"
-            response += dialog_state.current_ticket if dialog_state.current_ticket else "Билет будет готов скоро!"
-            response += "\n\n🌟 Желаем приятного путешествия! 🚂✨"
-        else:
-            response = "✅ Хорошо, завершаем с акциями!"
+    def _handle_special_commands(self, user_input: str, state: DialogState) -> Optional[str]:
+        """Обработка специальных команд"""
+        user_input_lower = user_input.lower()
         
-        dialog_state.context['awaiting_promo_selection'] = False
-        dialog_state.add_to_history(user_input, response)
-        return response
-    
-    if intent == 'promo_selection' and dialog_state.context['awaiting_promo_selection']:
-        promo = get_promo_by_number(user_input)
-        if promo:
-            response = "✅ **ВЫБРАНА АКЦИЯ!**\n\n" + promo['full']
-            response += "\n\n🎯 Хотите оформить эту услугу, посмотреть другие предложения или завершить? (оформить/другие/завершить)"
-            dialog_state.context['current_promo_id'] = promo['id']
-            dialog_state.add_to_history(user_input, response)
-            return response
-    
-    # Основное подтверждение бронирования
-    if dialog_state.current_state == "booking_confirmed" and not dialog_state.context['promo_shown']:
-        dialog_state.context['promo_shown'] = True
-        dialog_state.context['awaiting_promo_selection'] = True
+        if user_input_lower == 'сброс':
+            state.reset(clear_cart=True)
+            return "Состояние диалога сброшено. Начнем заново! 🔄"
         
-        response = "🎉 **ПОЗДРАВЛЯЕМ С УСПЕШНЫМ БРОНИРОВАНИЕМ!** 🎉\n\n"
-        details = f"📍 Направление: {dialog_state.context['destination']}"
-        if dialog_state.context['date_text']:
-            details += f"\n📅 Дата: {dialog_state.context['date_text']}"
-        details += f"\n🔢 Номер брони: {dialog_state.context['booking_number']}"
+        elif user_input_lower in ['корзина', 'моя корзина', 'посмотреть корзину']:
+            return self.show_cart(state)
         
-        response += details + "\n\n"
-        response += get_promo_response()
+        elif user_input_lower == 'оформить заказ':
+            return self.process_order(state)
         
-        # Сохраняем бронирование в БД
-        if user_id:
-            DatabaseManager.save_booking({
-                'user_id': user_id,
-                'destination': dialog_state.context['destination'],
-                'travel_date': dialog_state.context['date_text'],
-                'booking_number': dialog_state.context['booking_number']
-            })
-            
-            # Сохраняем выбранные услуги в БД
-            if dialog_state.context['selected_products']:
-                services_to_save = []
-                for product_id in dialog_state.context['selected_products']:
-                    product = next((p for p in BOT_CONFIG['products'] if p['id'] == product_id), None)
-                    if product:
-                        service_price = random.randint(500, 2000)
-                        services_to_save.append({
-                            'id': product_id,
-                            'name': product['name'],
-                            'price': service_price
-                        })
-                
-                DatabaseManager.save_selected_services(
-                    user_id, 
-                    dialog_state.context['booking_number'], 
-                    services_to_save
-                )
+        elif user_input_lower == 'очистить корзину':
+            state.clear_cart()
+            return "🛒 Корзина очищена! Теперь вы можете добавить новые товары."
         
-        dialog_state.add_to_history(user_input, response)
-        return response
-    
-    # Оформление выбранной услуги
-    if intent == 'positive_response' and dialog_state.context['awaiting_promo_selection']:
-        if dialog_state.context['current_promo_id']:
-            promo = next((p for p in BOT_CONFIG['promotions'] if p['id'] == dialog_state.context['current_promo_id']), None)
-            if promo:
-                response = f"✅ Отлично! Оформляю выбранную услугу!\n\n"
-                response += f"🎊 **{promo['short']}**\n\n"
-                response += f"📋 Услуга добавлена к вашему заказу {dialog_state.context['booking_number']}!\n\n"
-                response += "💎 Хотите посмотреть другие предложения или завершить? (другие/завершить)"
-                
-                # Логируем использование промо-акции
-                if user_id:
-                    DatabaseManager.log_promo_usage(user_id, promo['id'])
-                
-                # Добавляем в список использованных промо-акций
-                if promo['id'] not in dialog_state.context['used_promos']:
-                    dialog_state.context['used_promos'].append(promo['id'])
-                
-                dialog_state.add_to_history(user_input, response)
-                return response
-    
-    # Базовые ответы из конфига
-    if intent in BOT_CONFIG['intents']:
-        base_response = random.choice(BOT_CONFIG['intents'][intent]['responses'])
-    else:
-        base_response = random.choice(BOT_CONFIG['failure_phrases'])
-    
-    # Специальная обработка дат
-    if intent.startswith('date_'):
-        date_responses = {
-            'date_tomorrow': "Отлично! На завтра есть отличные варианты!",
-            'date_weekend': "Прекрасно! На выходные подберу лучшие предложения!",
-            'date_specific': "Замечательно! На указанную дату есть хорошие варианты!"
-        }
-        base_response = date_responses.get(intent, base_response)
-    
-    # Добавление следующего вопроса
-    next_question = dialog_state.get_next_question()
-    if next_question:
-        response = base_response
-        if not response.endswith(('!', '.', '?')):
-            response += "!"
-        response += " " + next_question
-    else:
-        response = base_response
-    
-    dialog_state.add_to_history(user_input, response)
-    return response
-
-def enhanced_aiml_response(replica):
-    """Улучшенная обработка AIML с контекстуальными ответами"""
-    if not kernel:
+        elif user_input_lower in ['сценарии', 'типы поездок']:
+            if state.context['destination'] and state.context['date_text']:
+                state.context['awaiting_scenario_selection'] = True
+                return self._show_scenarios(state, short=True)
+            else:
+                return "Сначала выберите направление и дату, чтобы увидеть подходящие сценарии! 🗺️"
+        
+        elif user_input_lower == 'акции':
+            state.context['awaiting_promo_selection'] = True
+            return self._show_promotions(state)
+        
+        elif user_input_lower == 'мой билет':
+            cart_summary = state.get_cart_summary()
+            if cart_summary['tickets']:
+                return self.show_ticket(state)
+            else:
+                return "В корзине нет билета. Сначала выберите сценарий путешествия! 🎫"
+        
+        elif user_input_lower == 'продолжить бронирование':
+            cart_summary = state.get_cart_summary()
+            if cart_summary['item_count'] > 0:
+                return self.show_cart(state)
+            else:
+                return "Корзина пуста. Начните новое бронирование! 🚂"
+        
         return None
     
-    try:
-        # Предварительная обработка реплики для AIML
-        processed_replica = replica.upper().strip()
+    def _handle_scenario_selection(self, user_input: str, state: DialogState, user_id: int) -> str:
+        """Обработка выбора сценария"""
+        scenarios = self.config['scenarios']
+        user_input_lower = user_input.lower().strip()
         
-        # Получаем ответ от AIML
-        aiml_response = kernel.respond(processed_replica)
-        
-        # Проверяем, является ли ответ осмысленным
-        if aiml_response and aiml_response.strip() and not aiml_response.startswith('#'):
-            logger.info(f"AIML ответ: '{aiml_response}'")
-            return aiml_response
-        
-    except Exception as e:
-        logger.error(f"Ошибка AIML: {e}")
-    
-    return None
-
-def get_products_by_category(category):
-    """Возвращает товары по категории"""
-    return [p for p in BOT_CONFIG['products'] if p['category'] == category]
-
-def get_scenario_description(scenario_id):
-    """Возвращает описание сценария"""
-    scenario = BOT_CONFIG['scenarios'].get(scenario_id, {})
-    products = [p['name'] for p in BOT_CONFIG['products'] if p['id'] in scenario.get('products', [])]
-    
-    description = f"**{scenario.get('name', '')}**\n\n"
-    description += f"{scenario.get('description', '')}\n\n"
-    description += f"📦 **Включает:**\n" + "\n".join(f"• {product}" for product in products)
-    description += f"\n\n💰 **Скидка:** {scenario.get('discount', 0)}%"
-    description += f"\n🎁 **Особенности:**\n" + "\n".join(f"• {feature}" for feature in scenario.get('features', []))
-    
-    return description
-
-def get_scenarios_list():
-    """Возвращает список всех сценариев"""
-    scenarios_text = "🎯 **ДОСТУПНЫЕ СЦЕНАРИИ ПУТЕШЕСТВИЙ:**\n\n"
-    
-    for i, (scenario_id, scenario) in enumerate(BOT_CONFIG['scenarios'].items(), 1):
-        scenarios_text += f"{i}. **{scenario['name']}**\n"
-        scenarios_text += f"   {scenario['description']}\n"
-        scenarios_text += f"   💰 Скидка: {scenario['discount']}%\n\n"
-    
-    scenarios_text += "Выберите номер сценария для подробной информации (1-5):"
-    return scenarios_text
-
-def get_cart_summary():
-    """Возвращает сводку корзины"""
-    if not dialog_state.context['selected_products']:
-        return "🛒 Ваша корзина пуста."
-    
-    summary = "🛒 **ВАША КОРЗИНА:**\n\n"
-    total_price = 0
-    
-    for product_id in dialog_state.context['selected_products']:
-        product = next((p for p in BOT_CONFIG['products'] if p['id'] == product_id), None)
-        if product:
-            price = random.randint(500, 2000)
-            total_price += price
-            summary += f"• {product['name']} - {price} руб.\n"
-    
-    # Применяем скидку сценария
-    if dialog_state.context['current_scenario']:
-        scenario = BOT_CONFIG['scenarios'][dialog_state.context['current_scenario']]
-        discount = scenario['discount']
-        discount_amount = total_price * discount / 100
-        final_price = total_price - discount_amount
-        
-        summary += f"\n💎 **Скидка по сценарию '{scenario['name']}':** -{discount}% (-{discount_amount:.0f} руб.)"
-        summary += f"\n💰 **Итоговая стоимость:** {final_price:.0f} руб."
-    else:
-        summary += f"\n💰 **Общая стоимость:** {total_price} руб."
-    
-    return summary
-
-def advanced_bot(replica, user_id=None, user_data=None):
-    """Усовершенствованная версия бота с полной интеграцией AIML"""
-    
-    # Сохраняем пользователя в БД
-    if user_id and user_data:
-        DatabaseManager.save_user({
-            'user_id': user_id,
-            'username': user_data.get('username'),
-            'first_name': user_data.get('first_name'),
-            'last_name': user_data.get('last_name')
-        })
-    
-    logger.info(f"Пользователь {user_id}: '{replica}'")
-    
-    # Специальные команды
-    if replica.lower() in ['сброс', 'reset', 'начать заново']:
-        dialog_state.reset()
-        return "🔄 Диалог сброшен. Давайте начнем сначала! Как ваше настроение сегодня? 🚂"
-    
-    if replica.lower() in ['история', 'history']:
-        history_text = "📜 Последние реплики:\n"
-        for msg in dialog_state.conversation_history[-5:]:
-            history_text += f"👤 Вы: {msg['user']}\n"
-            history_text += f"🤖 Бот: {msg['bot'][:50]}...\n\n"
-        return history_text + f"📍 Текущее состояние: {dialog_state.current_state}"
-    
-    if replica.lower() in ['помощь', 'help']:
-        return """🆘 **КОМАНДЫ ПОМОЩИ:**
-• 'сброс' - начать новый диалог
-• 'история' - показать историю диалога  
-• 'билет' - показать электронный билет
-• 'сценарии' - показать готовые пакеты путешествий
-• 'корзина' - показать выбранные товары
-• 'помощь' - показать эту справку"""
-
-    # Обработка сценариев
-    if replica.lower() in ['сценарии', 'scenarios', 'пакеты', 'packages']:
-        dialog_state.context['awaiting_scenario_selection'] = True
-        return get_scenarios_list()
-    
-    # Обработка выбора сценария
-    if dialog_state.context['awaiting_scenario_selection'] and replica in ['1', '2', '3', '4', '5']:
-        scenario_ids = list(BOT_CONFIG['scenarios'].keys())
+        # Пробуем распознать номер сценария (1-5)
         try:
-            scenario_index = int(replica) - 1
-            if 0 <= scenario_index < len(scenario_ids):
-                scenario_id = scenario_ids[scenario_index]
-                if dialog_state.apply_scenario(scenario_id):
-                    # Логируем использование сценария
-                    if user_id:
-                        DatabaseManager.log_scenario_usage(user_id, scenario_id)
-                    
-                    response = "✅ **СЦЕНАРИЙ ВЫБРАН!**\n\n"
-                    response += get_scenario_description(scenario_id)
-                    response += f"\n\n{get_cart_summary()}"
-                    response += "\n\nХотите продолжить с этим сценарием? (да/нет)"
-                    dialog_state.context['awaiting_scenario_selection'] = False
-                    return response
+            scenario_num = int(user_input_lower)
+            if 1 <= scenario_num <= len(scenarios):
+                scenario_keys = list(scenarios.keys())
+                scenario_id = scenario_keys[scenario_num - 1]
+                
+                state.apply_scenario(scenario_id)
+                state.context['awaiting_scenario_selection'] = False
+                
+                scenario_data = scenarios[scenario_id]
+                response = f"✅ **Выбран сценарий: {scenario_data['name']}**\n\n"
+                response += f"📝 {scenario_data['description']}\n\n"
+                response += f"💰 **Скидка по сценарию: {scenario_data['discount']}%**\n\n"
+                response += "🛍️ **В корзину добавлены:**\n"
+                
+                cart_summary = state.get_cart_summary()
+                for product in cart_summary['products']:
+                    response += f"• {product['name']} - {product.get('base_price', 0)} руб.\n"
+                
+                if cart_summary['tickets']:
+                    for ticket in cart_summary['tickets']:
+                        response += f"• Билет {ticket['destination']} - {ticket['price']} руб.\n"
+                
+                response += f"\n💵 **Общая стоимость: {cart_summary['total_price']:.2f} руб.**\n\n"
+                response += "✅ Добавить в корзину и продолжить?"
+                
+                state.context['awaiting_confirmation'] = True
+                return response
         except ValueError:
             pass
+        
+        # Если не число, ищем по названию
+        for scenario_id, scenario_data in scenarios.items():
+            if scenario_data['name'].lower() in user_input_lower:
+                state.apply_scenario(scenario_id)
+                state.context['awaiting_scenario_selection'] = False
+                
+                response = f"✅ **Выбран сценарий: {scenario_data['name']}**\n\n"
+                response += f"📝 {scenario_data['description']}\n\n"
+                response += f"💰 **Скидка по сценарию: {scenario_data['discount']}%**\n\n"
+                response += "🛍️ **В корзину добавлены:**\n"
+                
+                cart_summary = state.get_cart_summary()
+                for product in cart_summary['products']:
+                    response += f"• {product['name']} - {product.get('base_price', 0)} руб.\n"
+                
+                if cart_summary['tickets']:
+                    for ticket in cart_summary['tickets']:
+                        response += f"• Билет {ticket['destination']} - {ticket['price']} руб.\n"
+                
+                response += f"\n💵 **Общая стоимость: {cart_summary['total_price']:.2f} руб.**\n\n"
+                response += "✅ Добавить в корзину и продолжить?"
+                
+                state.context['awaiting_confirmation'] = True
+                return response
+        
+        return "Пожалуйста, выберите сценарий из предложенных. Введите номер (1-5) или название."
     
-    # Обработка корзины товаров
-    if replica.lower() in ['корзина', 'cart', 'мои товары']:
-        return get_cart_summary()
-
-    # Пробуем AIML в первую очередь для естественного диалога
-    aiml_response = enhanced_aiml_response(replica)
-    if aiml_response:
-        dialog_state.add_to_history(replica, aiml_response)
-        return aiml_response
-
-    # Если AIML не сработал, используем классическую логику
-    intent = simple_classify_intent(replica)
+    def _handle_promo_selection(self, user_input: str, state: DialogState, user_id: int) -> str:
+        """Обработка выбора промо-акции"""
+        try:
+            promo_num = int(user_input.strip())
+            if 1 <= promo_num <= len(self.config['promotions']):
+                promo = self.config['promotions'][promo_num - 1]
+                
+                # Добавляем промо-акцию в корзину
+                state.add_to_cart('promo', promo['id'], promo)
+                state.context['awaiting_promo_selection'] = False
+                
+                response = f"✅ **Добавлена акция: {promo['short']}**\n\n"
+                response += f"{promo['full']}\n\n"
+                
+                cart_summary = state.get_cart_summary()
+                if cart_summary['item_count'] > 0:
+                    response += f"🛒 В корзине: {cart_summary['item_count']} товаров\n"
+                    response += f"💵 Общая стоимость: {cart_summary['total_price']:.2f} руб.\n\n"
+                
+                response += "Хотите добавить еще акции? (да/нет)"
+                state.context['awaiting_confirmation'] = True
+                return response
+        except ValueError:
+            pass
+        
+        return "Пожалуйста, введите номер акции от 1 до 6."
     
-    logger.info(f"Выбран интент: '{intent}' (состояние: {dialog_state.current_state})")
-    
-    if intent:
-        response = get_contextual_response(intent, replica, user_id)
+    def _handle_date_selection(self, user_input: str, state: DialogState) -> str:
+        """Обработка выбора даты"""
+        state.context['date_text'] = user_input
+        state.context['awaiting_date_selection'] = False
+        
+        if state.context['destination']:
+            state.context['awaiting_scenario_selection'] = True
+            response = f"📅 **Дата поездки: {user_input}**\n"
+            response += f"📍 **Направление: {state.context['destination']}**\n\n"
+            response += "Теперь выберите тип путешествия:\n\n"
+            response += self._show_scenarios(state, short=True)
+        else:
+            state.context['awaiting_destination_selection'] = True
+            response = "📅 Отлично! Теперь выберите направление:\n"
+            response += "1. Москва 🏙️\n2. Санкт-Петербург 🏛️\n3. Сочи 🌴\n\n"
+            response += "Или напишите свой вариант!"
+        
         return response
     
-    # Ответ по умолчанию с использованием AIML
-    default_aiml = enhanced_aiml_response("что сказать")
-    if default_aiml:
-        response = default_aiml
-    else:
-        context_aware_failures = {
-            "start": "Расскажите, как ваше настроение? 😊",
-            "mood_known": "Хотите отправиться в путешествие? 🚆", 
-            "interested_in_travel": "Выберите направление: Москва, Санкт-Петербург или Сочи?",
-            "destination_selected": "На когда планируете поездку?",
-            "ready_for_booking": "Готовы к бронированию?",
-            "showing_promotions": "Выберите номер акции для подробностей (1-6)",
-            "showing_promo_details": "Хотите оформить эту услугу, посмотреть другие предложения или завершить? (оформить/другие/завершить)"
+    def _handle_destination_selection(self, user_input: str, state: DialogState) -> str:
+        """Обработка выбора направления"""
+        user_input_lower = user_input.lower()
+        
+        destinations = {
+            'москва': 'Москва',
+            'мск': 'Москва',
+            'питер': 'Санкт-Петербург',
+            'спб': 'Санкт-Петербург',
+            'санкт-петербург': 'Санкт-Петербург',
+            'петербург': 'Санкт-Петербург',
+            'сочи': 'Сочи'
         }
         
-        response = context_aware_failures.get(
-            dialog_state.current_state, 
-            random.choice(BOT_CONFIG['failure_phrases'])
-        )
-    
-    logger.info(f"Не распознано, ответ по умолчанию: '{response}'")
-    dialog_state.add_to_history(replica, response)
-    return response
-
-# Глобальный объект состояния диалога
-dialog_state = DialogState()
-
-if __name__ == "__main__":
-    print("🚂 Усовершенствованный бот-помощник по путешествиям запущен!")
-    print("💡 Новые команды: 'сценарии', 'корзина', 'товары'")
-    print("🎯 Доступно сценариев:", len(BOT_CONFIG['scenarios']))
-    print("🛍️ Доступно товаров:", len(BOT_CONFIG['products']))
-    print("🧠 AIML активирован с расширенными паттернами")
-    print("💾 База данных инициализирована")
-    print("=" * 50)
-    
-    while True:
-        try:
-            user_input = input("👤 Вы: ").strip()
-            if not user_input:
-                continue
-                
-            if user_input.lower() in ['стоп', 'выход', 'exit', 'quit']:
-                print("🤖 Бот: До свидания! Хорошего дня! 👋")
+        for key, value in destinations.items():
+            if key in user_input_lower:
+                state.context['destination'] = value
                 break
-                
-            response = advanced_bot(user_input)
-            print(f"🤖 Бот: {response}")
-            print("-" * 50)
+        
+        if not state.context['destination']:
+            state.context['destination'] = user_input
+        
+        state.context['awaiting_destination_selection'] = False
+        
+        if state.context['date_text']:
+            state.context['awaiting_scenario_selection'] = True
+            response = f"📍 **Направление: {state.context['destination']}**\n"
+            response += f"📅 **Дата: {state.context['date_text']}**\n\n"
+            response += "Теперь выберите тип путешествия:\n\n"
+            response += self._show_scenarios(state, short=True)
+        else:
+            response = f"📍 **Направление: {state.context['destination']}**\n\n"
+            response += "📅 Теперь введите дату поездки (например: 'завтра', '20 декабря', 'на выходные'):"
+            state.context['awaiting_date_selection'] = True
+        
+        return response
+    
+    def _handle_booking_confirmation(self, user_input: str, state: DialogState, user_id: int) -> str:
+        """Обработка подтверждения бронирования"""
+        user_input_lower = user_input.lower()
+        
+        if user_input_lower in ['да', 'yes', 'ок', 'подтверждаю', 'согласен', 'согласна', 'добавить']:
+            response = "✅ **Товары добавлены в корзину!**\n\n"
             
-        except KeyboardInterrupt:
-            print("\n🤖 Бот: Работа завершена. До свидания! 👋")
-            break
-        except Exception as e:
-            print(f"🤖 Бот: Произошла ошибка: {e}")
-            logger.error(f"Ошибка в основном цикле: {e}")
+            cart_summary = state.get_cart_summary()
+            if cart_summary['item_count'] > 0:
+                response += f"🛒 В корзине: {cart_summary['item_count']} товаров\n"
+                response += f"💵 Общая стоимость: {cart_summary['total_price']:.2f} руб.\n\n"
+            
+            response += "Что дальше?\n"
+            response += "• 🛒 Посмотреть корзину\n"
+            response += "• 🎁 Добавить акции\n"
+            response += "• ✅ Оформить заказ\n"
+            response += "• 🔄 Продолжить выбор"
+            
+            state.context['awaiting_confirmation'] = False
+            state.current_state = "cart_ready"
+            return response
+        elif user_input_lower in ['нет', 'no', 'не', 'отмена']:
+            state.context['awaiting_confirmation'] = False
+            return "Хорошо, отменяем. Хотите выбрать другой сценарий?"
+        else:
+            return "Пожалуйста, подтвердите добавление в корзину (да/нет)"
+    
+    def _handle_order_confirmation(self, user_input: str, state: DialogState, user_id: int) -> str:
+        """Обработка подтверждения заказа"""
+        user_input_lower = user_input.lower()
+        
+        if user_input_lower in ['да', 'yes', 'ок', 'подтверждаю', 'согласен', 'согласна']:
+            # Сохраняем бронирование в БД
+            booking_data = {
+                'user_id': user_id,
+                'destination': state.context['destination'],
+                'travel_date': state.context['date_text'],
+                'booking_number': state.generate_booking_number(),
+                'total_price': state.context['total_price']
+            }
+            
+            try:
+                DatabaseManager.save_booking(booking_data)
+                
+                # Сохраняем сценарий если есть
+                if state.context['current_scenario']:
+                    DatabaseManager.save_scenario_usage(
+                        user_id, 
+                        state.context['current_scenario'], 
+                        booking_data['booking_number']
+                    )
+                
+                # Сохраняем промо-акции если есть
+                for item in state.context['cart_items']:
+                    if item['type'] == 'promo':
+                        DatabaseManager.save_promo_usage(
+                            user_id, 
+                            item['id'], 
+                            booking_data['booking_number']
+                        )
+                
+                # Сохраняем услуги
+                cart_summary = state.get_cart_summary()
+                if cart_summary['products']:
+                    DatabaseManager.save_selected_services(
+                        user_id,
+                        booking_data['booking_number'],
+                        cart_summary['products']
+                    )
+                
+                response = f"""
+✅ **БРОНИРОВАНИЕ ПОДТВЕРЖДЕНО!** ✅
+
+📋 **Детали заказа:**
+📍 Направление: {state.context['destination']}
+📅 Дата: {state.context['date_text']}
+🎫 Номер брони: {booking_data['booking_number']}
+👤 Пассажир: {state.context['passenger_name']}
+💵 Итоговая сумма: {state.context['total_price']:.2f} руб.
+
+📧 Информация отправлена на email: {state.context['passenger_email']}
+
+Спасибо за бронирование! Хорошей поездки! 🚂✨
+"""
+                
+                # Создаем чек
+                receipt = self._generate_receipt(state, booking_data['booking_number'])
+                state.context['order_summary'] = receipt
+                
+                state.context['awaiting_order_confirmation'] = False
+                state.context['booking_confirmed'] = True
+                
+                return response + "\n\n" + receipt
+                
+            except Exception as e:
+                logger.error(f"Ошибка сохранения бронирования: {e}")
+                return "❌ Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже."
+        
+        elif user_input_lower in ['нет', 'no', 'не', 'отмена']:
+            state.context['awaiting_order_confirmation'] = False
+            return "Оформление заказа отменено. Хотите что-то изменить в корзине?"
+        else:
+            return "Пожалуйста, подтвердите оформление заказа (да/нет)"
+    
+    def _generate_response(self, intent: Optional[str], user_input: str, 
+                          state: DialogState, user_id: int) -> str:
+        """Генерация ответа на основе намерения и состояния"""
+        
+        # Если намерение не распознано
+        if not intent:
+            if state.current_state == "start":
+                cart_summary = state.get_cart_summary()
+                if cart_summary['item_count'] > 0:
+                    return f"🛒 В вашей корзине: {cart_summary['item_count']} товаров\n💵 Сумма: {cart_summary['total_price']:.2f} руб.\n\nЧем могу помочь?"
+                else:
+                    return random.choice([
+                        "Здравствуйте! Я помогу вам организовать путешествие! 🚂",
+                        "Привет! Куда хотите отправиться? 🌍"
+                    ])
+            elif state.current_state == "destination_selected":
+                return "Отлично! Теперь выберите дату поездки. Например: 'завтра', 'на выходные', '25 декабря'"
+            elif state.current_state == "date_selected":
+                return "Теперь выберите направление: Москва, Санкт-Петербург или Сочи?"
+            elif state.current_state == "cart_ready":
+                return "Готовы оформить бронирование или хотите узнать о дополнительных услугах?"
+            else:
+                return random.choice(self.config['failure_phrases'])
+        
+        # Обработка распознанных намерений
+        if intent in self.config['intents']:
+            responses = self.config['intents'][intent]['responses']
+            base_response = random.choice(responses)
+            
+            # Дополнительная логика для конкретных намерений
+            if intent == 'greeting':
+                state.reset(clear_cart=False)
+                return base_response
+            
+            elif intent == 'destination':
+                state.context['awaiting_destination_selection'] = True
+                return "Куда хотите отправиться? (Москва, Санкт-Петербург, Сочи или другой город)"
+            
+            elif intent == 'date':
+                state.context['awaiting_date_selection'] = True
+                return "Когда планируете поездку? (например: 'завтра', 'на выходные', '25 декабря')"
+            
+            elif intent == 'destination_moscow':
+                state.context['destination'] = 'Москва'
+                state.context['awaiting_date_selection'] = True
+                return f"{base_response}\n\n📅 Когда планируете поездку? (например: 'завтра', 'на выходные')"
+            
+            elif intent == 'destination_spb':
+                state.context['destination'] = 'Санкт-Петербург'
+                state.context['awaiting_date_selection'] = True
+                return f"{base_response}\n\n📅 Когда планируете поездку? (например: 'завтра', 'на выходные')"
+            
+            elif intent == 'destination_sochi':
+                state.context['destination'] = 'Сочи'
+                state.context['awaiting_date_selection'] = True
+                return f"{base_response}\n\n📅 Когда планируете поездку? (например: 'завтра', 'на выходные')"
+            
+            elif intent == 'date_tomorrow':
+                tomorrow = (datetime.now() + timedelta(days=1)).strftime("%d.%m.%Y")
+                state.context['date_text'] = f"завтра ({tomorrow})"
+                if state.context['destination']:
+                    state.context['awaiting_scenario_selection'] = True
+                    return f"{base_response}\n📍 Направление: {state.context['destination']}\n📅 Дата: завтра\n\n" + self._show_scenarios(state, short=True)
+                else:
+                    state.context['awaiting_destination_selection'] = True
+                    return f"{base_response}\n\nКуда хотите отправиться? (Москва, Санкт-Петербург, Сочи)"
+            
+            elif intent == 'date_weekend':
+                # Находим ближайшую пятницу
+                today = datetime.now()
+                days_until_friday = (4 - today.weekday()) % 7
+                if days_until_friday == 0:  # Если сегодня пятница
+                    days_until_friday = 7
+                friday = today + timedelta(days=days_until_friday)
+                weekend_date = friday.strftime("%d.%m.%Y")
+                state.context['date_text'] = f"на выходные ({weekend_date})"
+                if state.context['destination']:
+                    state.context['awaiting_scenario_selection'] = True
+                    return f"{base_response}\n📍 Направление: {state.context['destination']}\n📅 Дата: на выходные\n\n" + self._show_scenarios(state, short=True)
+                else:
+                    state.context['awaiting_destination_selection'] = True
+                    return f"{base_response}\n\nКуда хотите отправиться? (Москва, Санкт-Петербург, Сочи)"
+            
+            elif intent == 'promo_interest':
+                state.context['awaiting_promo_selection'] = True
+                return self._show_promotions(state)
+            
+            elif intent == 'view_cart':
+                return self.show_cart(state)
+            
+            elif intent == 'confirm_booking':
+                cart_summary = state.get_cart_summary()
+                if cart_summary['item_count'] == 0:
+                    return "Корзина пуста! Сначала добавьте товары. 🛒"
+                else:
+                    return self.process_order(state)
+            
+            elif intent == 'help':
+                help_text = """
+🤖 **ПОМОЩЬ ПО КОМАНДАМ:**
+
+🛒 **Работа с корзиной:**
+• "Корзина" - просмотр корзины
+• "Очистить корзину" - очистить корзину
+• "Оформить заказ" - завершить покупку
+
+🎫 **Бронирование:**
+• "Москва"/"СПб"/"Сочи" - выбрать направление
+• "Завтра"/"На выходные" - выбрать дату
+• "Сценарии" - показать типы поездок
+• "Акции" - показать текущие акции
+• "Мой билет" - показать электронный билет
+
+🔄 **Прочее:**
+• "Сброс" - начать заново
+• "Продолжить бронирование" - вернуться к корзине
+
+💡 Просто напишите, куда и когда хотите поехать, и я помогу с выбором!
+"""
+                return help_text
+            
+            else:
+                return base_response
+        
+        return random.choice(self.config['failure_phrases'])
+    
+    def show_ticket(self, state: DialogState) -> str:
+        """Показывает электронный билет"""
+        cart_summary = state.get_cart_summary()
+        
+        for ticket in cart_summary['tickets']:
+            ticket_display = f"""
+╔══════════════════════════════════════╗
+║      ЭЛЕКТРОННЫЙ БИЛЕТ НА ПОЕЗД      ║
+╠══════════════════════════════════════╣
+║ 📍 Направление: {ticket['destination']:<20} ║
+║ 🎫 Номер брони: {ticket['booking_number']:<18} ║
+║ 👤 Пассажир: {ticket['passenger']:<24} ║
+║ 📅 Дата: {ticket['date']:<26} ║
+║ 🚂 Поезд: №{ticket['train_number']:<25} ║
+║ 🕗 Отправление: {ticket['departure_time']:<19} ║
+║ 🕓 Прибытие: {ticket['arrival_time']:<21} ║
+║ 💺 Вагон: {ticket['wagon']:<2} Место: {ticket['seat']:<2}        ║
+║ 💰 Стоимость: {ticket['price']:<6} руб.      ║
+╠══════════════════════════════════════╣
+║  Предъявите этот билет при посадке!  ║
+╚══════════════════════════════════════╝
+"""
+            return ticket_display
+        
+        return "Билет не найден в корзине. 🎫"
+    
+    def show_cart(self, state: DialogState) -> str:
+        """Показывает содержимое корзины"""
+        cart_summary = state.get_cart_summary()
+        
+        if cart_summary['item_count'] == 0:
+            return "🛒 **Ваша корзина пуста!**\n\nДобавьте товары, выбрав сценарий путешествия или акции."
+        
+        response = "🛒 **ВАША КОРЗИНА**\n\n"
+        
+        # Показываем билеты
+        tickets = cart_summary['tickets']
+        if tickets:
+            response += "🎫 **БИЛЕТЫ:**\n"
+            for ticket in tickets:
+                response += f"• Билет {ticket['destination']} - {ticket['date']}\n"
+                response += f"  Номер: {ticket['booking_number']}\n"
+                response += f"  Цена: {ticket['price']} руб.\n\n"
+        
+        # Показываем продукты
+        products = cart_summary['products']
+        if products:
+            response += "🛍️ **УСЛУГИ:**\n"
+            for product in products:
+                response += f"• {product['name']}\n"
+                response += f"  Цена: {product.get('base_price', 0)} руб.\n"
+                if product.get('description'):
+                    response += f"  Описание: {product['description']}\n"
+                response += "\n"
+        
+        # Показываем промо-акции
+        promos = cart_summary['promos']
+        if promos:
+            response += "🎁 **АКЦИИ:**\n"
+            for promo in promos:
+                response += f"• {promo['short']}\n"
+                response += f"  {promo['full']}\n\n"
+        
+        # Показываем скидку сценария
+        if state.context['current_scenario']:
+            scenario = self.config['scenarios'][state.context['current_scenario']]
+            response += f"💰 **Скидка по сценарию '{scenario['name']}': {scenario['discount']}%**\n\n"
+        
+        response += f"💵 **ИТОГО: {cart_summary['total_price']:.2f} руб.**\n\n"
+        
+        response += "🔸 **Доступные действия:**\n"
+        response += "• ✅ Оформить заказ\n"
+        response += "• 🎁 Добавить акции\n"
+        response += "• 🗑️ Удалить товар (укажите номер)\n"
+        response += "• 🔄 Продолжить выбор\n"
+        response += "• 🚫 Очистить корзину"
+        
+        return response
+    
+    def process_order(self, state: DialogState) -> str:
+        """Обработка оформления заказа"""
+        cart_summary = state.get_cart_summary()
+        
+        if cart_summary['item_count'] == 0:
+            return "Корзина пуста! Сначала добавьте товары. 🛒"
+        
+        # Проверяем, есть ли билет
+        if not cart_summary['tickets']:
+            return "Для оформления заказа нужен билет! Выберите сценарий путешествия. 🎫"
+        
+        response = "✅ **ПОДТВЕРЖДЕНИЕ ЗАКАЗА**\n\n"
+        
+        # Показываем детали заказа
+        response += "📋 **Детали заказа:**\n"
+        
+        for ticket in cart_summary['tickets']:
+            response += f"📍 Направление: {ticket['destination']}\n"
+            response += f"📅 Дата: {ticket['date']}\n"
+            response += f"👤 Пассажир: {state.context['passenger_name']}\n"
+            response += f"📧 Email: {state.context['passenger_email']}\n\n"
+        
+        if cart_summary['products']:
+            response += "🛍️ **Дополнительные услуги:**\n"
+            for product in cart_summary['products']:
+                response += f"• {product['name']} - {product.get('base_price', 0)} руб.\n"
+            response += "\n"
+        
+        if cart_summary['promos']:
+            response += "🎁 **Акции:**\n"
+            for promo in cart_summary['promos']:
+                response += f"• {promo['short']}\n"
+            response += "\n"
+        
+        response += f"💵 **Общая стоимость: {cart_summary['total_price']:.2f} руб.**\n\n"
+        
+        response += "✅ **Подтвердить заказ?** (да/нет)\n"
+        response += "После подтверждения вы получите электронный билет и чек."
+        
+        state.context['awaiting_order_confirmation'] = True
+        
+        return response
+    
+    def _show_scenarios(self, state: DialogState, short: bool = False) -> str:
+        """Показывает доступные сценарии"""
+        scenarios = self.config['scenarios']
+        
+        if short:
+            response = "🎯 **Выберите тип путешествия:**\n\n"
+            for i, (scenario_id, scenario) in enumerate(scenarios.items(), 1):
+                response += f"{i}. **{scenario['name']}**\n"
+                response += f"   Скидка: {scenario['discount']}%\n"
+                response += f"   {scenario['description']}\n\n"
+            response += "📝 Введите номер (1-5) или название сценария:"
+        else:
+            response = "🎯 **ДОСТУПНЫЕ СЦЕНАРИИ ПУТЕШЕСТВИЙ**\n\n"
+            for i, (scenario_id, scenario) in enumerate(scenarios.items(), 1):
+                response += f"**{i}. {scenario['name']}**\n"
+                response += f"📝 {scenario['description']}\n"
+                response += f"💰 **Скидка: {scenario['discount']}%**\n"
+                
+                # Показываем продукты сценария
+                response += "🛍️ **Включает услуги:**\n"
+                for product_id in scenario['products']:
+                    product = next((p for p in self.config['products'] if p['id'] == product_id), None)
+                    if product:
+                        response += f"• {product['name']}"
+                        if product.get('base_price'):
+                            response += f" - {product['base_price']} руб."
+                        response += "\n"
+                
+                response += f"\n🏷️ **Примерная стоимость: {self._calculate_scenario_price(scenario_id, state)} руб.**\n\n"
+                response += "─" * 40 + "\n\n"
+        
+        return response
+    
+    def _show_promotions(self, state: DialogState) -> str:
+        """Показывает доступные промо-акции"""
+        promotions = self.config['promotions']
+        
+        response = "🎁 **ТЕКУЩИЕ АКЦИИ И ПРЕДЛОЖЕНИЯ**\n\n"
+        
+        for i, promo in enumerate(promotions, 1):
+            response += f"**{i}. {promo['short']}**\n"
+            response += f"{promo['full']}\n\n"
+        
+        response += "📝 Чтобы добавить акцию, введите её номер (1-6):"
+        
+        return response
+    
+    def _calculate_scenario_price(self, scenario_id: str, state: DialogState) -> float:
+        """Рассчитывает примерную стоимость сценария"""
+        if scenario_id not in self.config['scenarios']:
+            return 0
+        
+        scenario = self.config['scenarios'][scenario_id]
+        total = 0
+        
+        # Добавляем стоимость продуктов
+        for product_id in scenario['products']:
+            product = next((p for p in self.config['products'] if p['id'] == product_id), None)
+            if product and 'base_price' in product:
+                total += product['base_price']
+        
+        # Добавляем примерную стоимость билета
+        ticket_price = random.randint(1500, 4500)
+        total += ticket_price
+        
+        # Применяем скидку
+        total = total * (1 - scenario['discount'] / 100)
+        
+        return round(total, 2)
+    
+    def _generate_receipt(self, state: DialogState, booking_number: str) -> str:
+        """Генерирует чек покупки"""
+        cart_summary = state.get_cart_summary()
+        
+        receipt = f"""
+🧾 **ЧЕК ПОКУПКИ** 🧾
+
+Номер брони: {booking_number}
+Дата: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')}
+Пассажир: {state.context['passenger_name']}
+Email: {state.context['passenger_email']}
+────────────────────────────────
+"""
+        
+        # Билет
+        for ticket in cart_summary['tickets']:
+            receipt += f"🎫 БИЛЕТ\n"
+            receipt += f"Направление: {ticket['destination']}\n"
+            receipt += f"Дата: {ticket['date']}\n"
+            receipt += f"Поезд №{ticket['train_number']}\n"
+            receipt += f"Стоимость: {ticket['price']} руб.\n"
+            receipt += "────────────────────────────────\n"
+        
+        # Услуги
+        if cart_summary['products']:
+            receipt += "🛍️ УСЛУГИ\n"
+            for product in cart_summary['products']:
+                receipt += f"• {product['name']}: {product.get('base_price', 0)} руб.\n"
+            receipt += "────────────────────────────────\n"
+        
+        # Скидка
+        if state.context['current_scenario']:
+            scenario = self.config['scenarios'][state.context['current_scenario']]
+            receipt += f"💰 СКИДКА\n"
+            receipt += f"Сценарий: {scenario['name']}\n"
+            receipt += f"Размер скидки: {scenario['discount']}%\n"
+            receipt += "────────────────────────────────\n"
+        
+        receipt += f"ИТОГО К ОПЛАТЕ: {cart_summary['total_price']:.2f} руб.\n"
+        receipt += "────────────────────────────────\n"
+        receipt += "Спасибо за покупку! Хорошей поездки! 🚂"
+        
+        return receipt

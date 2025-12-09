@@ -1,0 +1,830 @@
+2025-12-09 14:21:10,957 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:21:10,969 - __main__ - ERROR - Ошибка сохранения пользователя 999: table users has no column named preferences
+2025-12-09 14:31:28,421 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:31:28,425 - __main__ - INFO - Добавляем колонку preferences в таблицу users
+2025-12-09 14:31:28,441 - __main__ - ERROR - Ошибка сохранения пользователя 999: no such column: last_active
+2025-12-09 14:31:28,456 - __main__ - ERROR - Ошибка создания бронирования: table bookings has no column named total_price
+2025-12-09 14:31:28,459 - __main__ - ERROR - Ошибка сохранения диалога: FOREIGN KEY constraint failed
+2025-12-09 14:31:57,624 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:31:57,632 - __main__ - ERROR - Ошибка сохранения пользователя 999: no such column: last_active
+2025-12-09 14:31:57,649 - __main__ - ERROR - Ошибка создания бронирования: table bookings has no column named total_price
+2025-12-09 14:31:57,653 - __main__ - ERROR - Ошибка сохранения диалога: FOREIGN KEY constraint failed
+2025-12-09 14:36:01,728 - __main__ - INFO - Существующие таблицы: {'bookings', 'user_analytics', 'scenario_usage', 'selected_services', 'conversation_history', 'users', 'promo_usage', 'sqlite_sequence'}
+2025-12-09 14:36:01,728 - __main__ - ERROR - Ошибка миграции базы данных: Cannot add a column with non-constant default
+2025-12-09 14:36:01,729 - __main__ - ERROR - Ошибка курсора: Cannot add a column with non-constant default
+2025-12-09 14:36:01,730 - __main__ - ERROR - Ошибка базы данных: Cannot add a column with non-constant default
+2025-12-09 14:36:09,395 - __main__ - INFO - Существующие таблицы: {'users', 'selected_services', 'sqlite_sequence', 'conversation_history', 'promo_usage', 'bookings', 'user_analytics', 'scenario_usage'}
+2025-12-09 14:36:09,396 - __main__ - ERROR - Ошибка миграции базы данных: Cannot add a column with non-constant default
+2025-12-09 14:36:09,397 - __main__ - ERROR - Ошибка курсора: Cannot add a column with non-constant default
+2025-12-09 14:36:09,398 - __main__ - ERROR - Ошибка базы данных: Cannot add a column with non-constant default
+2025-12-09 14:36:33,926 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:36:33,933 - __main__ - ERROR - Ошибка сохранения пользователя 999: no such column: last_active
+2025-12-09 14:36:33,952 - __main__ - ERROR - Ошибка создания бронирования: table bookings has no column named total_price
+2025-12-09 14:36:33,956 - __main__ - ERROR - Ошибка сохранения диалога: FOREIGN KEY constraint failed
+2025-12-09 14:37:04,653 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:37:11,695 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:37:22,293 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:41:21,699 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:41:21,712 - __main__ - INFO - Пользователь 999 сохранен
+2025-12-09 14:41:21,719 - __main__ - ERROR - Ошибка получения пользователя 999: 'sqlite3.Row' object has no attribute 'get'
+2025-12-09 14:41:34,144 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:41:34,153 - __main__ - INFO - Пользователь 999 сохранен
+2025-12-09 14:41:34,161 - __main__ - ERROR - Ошибка получения пользователя 999: 'sqlite3.Row' object has no attribute 'get'
+2025-12-09 14:45:47,290 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:45:47,305 - __main__ - INFO - Пользователь 999 сохранен
+2025-12-09 14:45:47,315 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 14:41:34': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:45:47,315 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 14:45:47': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:45:47,347 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 11:45:47': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:45:47,347 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 11:41:34': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:45:47,353 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 11:45:47': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:45:47,353 - __main__ - ERROR - Ошибка парсинга даты '2025-12-09 11:41:34': strptime() argument 1 must be str, not datetime.datetime
+2025-12-09 14:50:10,410 - __main__ - INFO - База данных успешно инициализирована
+2025-12-09 14:50:10,422 - __main__ - INFO - Пользователь 999 сохранен
+2025-12-09 14:59:36,458 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:08:55,307 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:08:58,252 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 15:08:58,336 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 15:08:58,341 - telegram.ext.Application - INFO - Application started
+2025-12-09 15:09:28,580 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:31,176 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:31,177 - __main__ - INFO - Пользователь 1931456076 (Миша): ℹ️ Помощь
+2025-12-09 15:09:31,193 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:09:32,157 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:09:36,866 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:37,033 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:09:44,849 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:44,851 - __main__ - INFO - Пользователь 1931456076 (Миша): 🚂 Начать бронирование
+2025-12-09 15:09:44,865 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:09:45,158 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:09:50,861 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:50,864 - __main__ - INFO - Пользователь 1931456076 (Миша): 📍 Москва
+2025-12-09 15:09:50,878 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:09:51,197 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:09:56,609 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:09:56,611 - __main__ - INFO - Пользователь 1931456076 (Миша): На завтра 📅
+2025-12-09 15:09:56,626 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:09:56,913 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:01,832 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:01,834 - __main__ - INFO - Пользователь 1931456076 (Миша): ✅ Да, бронировать!
+2025-12-09 15:10:01,847 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:02,078 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:21,532 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:21,534 - __main__ - INFO - Пользователь 1931456076 (Миша): 1️⃣
+2025-12-09 15:10:21,546 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:21,946 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:31,581 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:31,583 - __main__ - INFO - Пользователь 1931456076 (Миша): 🎫 Мой билет
+2025-12-09 15:10:31,588 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:31,954 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:43,309 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:43,311 - __main__ - INFO - Пользователь 1931456076 (Миша): ℹ️ Помощь
+2025-12-09 15:10:43,324 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:43,609 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:48,750 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:48,752 - __main__ - INFO - Пользователь 1931456076 (Миша): 4️⃣
+2025-12-09 15:10:48,772 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:49,075 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:56,947 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:56,949 - __main__ - INFO - Пользователь 1931456076 (Миша): 🚫 Завершить
+2025-12-09 15:10:56,966 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:57,324 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:10:59,383 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:10:59,385 - __main__ - INFO - Пользователь 1931456076 (Миша): 🚫 Завершить
+2025-12-09 15:10:59,400 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:10:59,535 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:11:30,510 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:12:01,602 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:12:32,689 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:13:03,785 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:13:34,869 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:14:05,959 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:14:37,046 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:15:08,142 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:15:39,236 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:16:10,327 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:16:41,422 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:17:12,516 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:17:43,618 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:18:14,705 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:18:45,995 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:19:17,086 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:19:48,179 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:20:00,591 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:20:00,592 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2025-12-09 15:20:00,593 - telegram.ext.Application - INFO - Application.stop() complete
+2025-12-09 15:34:59,673 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:34:59,677 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:36:06,296 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:36:06,300 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:40:25,908 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:40:25,911 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:42:29,850 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:42:29,853 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:42:29,857 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 15:42:30,291 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 15:42:30,371 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 15:42:30,376 - telegram.ext.Application - INFO - Application started
+2025-12-09 15:42:45,158 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:42:45,162 - __main__ - INFO - Пользователь 1931456076 (Миша): 🚫 Завершить
+2025-12-09 15:42:45,179 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:42:45,191 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:42:45,195 - advanced_bot - INFO - User 1931456076: 'завершить' -> intent: finish, confidence: 0.7407866495219108
+2025-12-09 15:42:46,107 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:01,435 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:01,439 - __main__ - INFO - Пользователь 1931456076 (Миша): 🚂 Новое бронирование
+2025-12-09 15:43:01,454 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:01,468 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:01,470 - advanced_bot - INFO - User 1931456076: '1' -> intent: booking, confidence: 1.0
+2025-12-09 15:43:01,923 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:07,226 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:07,231 - __main__ - INFO - Пользователь 1931456076 (Миша): Казань 🕌
+2025-12-09 15:43:07,242 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:07,253 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:07,255 - advanced_bot - INFO - User 1931456076: 'Казань' -> intent: city_input, confidence: 0.6
+2025-12-09 15:43:07,550 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:20,254 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:20,256 - __main__ - INFO - Пользователь 1931456076 (Миша): завтра
+2025-12-09 15:43:20,270 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:20,282 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:20,284 - advanced_bot - INFO - User 1931456076: 'завтра' -> intent: date_input, confidence: 0.8
+2025-12-09 15:43:20,573 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:26,320 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:26,321 - __main__ - INFO - Пользователь 1931456076 (Миша): 2
+2025-12-09 15:43:26,334 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:26,350 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:26,352 - advanced_bot - INFO - User 1931456076: '2' -> intent: scenarios, confidence: 1.0
+2025-12-09 15:43:26,646 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:31,196 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:31,196 - __main__ - INFO - Пользователь 1931456076 (Миша): ✅ Да, бронировать!
+2025-12-09 15:43:31,208 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:31,214 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:31,216 - advanced_bot - INFO - User 1931456076: 'да' -> intent: city_input, confidence: 0.6
+2025-12-09 15:43:31,349 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:43:46,775 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:43:46,777 - __main__ - INFO - Пользователь 1931456076 (Миша): 4
+2025-12-09 15:43:47,525 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:47,537 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:43:47,544 - advanced_bot - INFO - User 1931456076: '4' -> intent: view_ticket, confidence: 1.0
+2025-12-09 15:43:47,881 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:44:04,327 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:44:04,329 - __main__ - INFO - Пользователь 1931456076 (Миша): 📋 Мои брони
+2025-12-09 15:44:04,334 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:44:04,344 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 15:44:04,346 - advanced_bot - INFO - User 1931456076: 'мои брони' -> intent: city_input, confidence: 0.6
+2025-12-09 15:44:05,635 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 15:44:07,186 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 15:44:07,188 - __main__ - INFO - Пользователь 1931456076 (Миша): 📊 Статистика
+2025-12-09 15:44:07,202 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:19,983 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:04:19,986 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:04:19,989 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:04:20,391 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 16:04:20,477 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 16:04:20,482 - telegram.ext.Application - INFO - Application started
+2025-12-09 16:04:32,906 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:04:37,526 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:04:37,529 - __main__ - INFO - Пользователь 1931456076: 🚫 Завершить
+2025-12-09 16:04:37,546 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:37,565 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:37,579 - advanced_bot - INFO - User 1931456076: 'завершить' -> intent: finish, confidence: 0.7886285257979329
+2025-12-09 16:04:38,544 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:04:44,832 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:04:44,835 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 16:04:44,841 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:44,849 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:44,852 - advanced_bot - INFO - User 1931456076: '1' -> intent: booking, confidence: 1.0
+2025-12-09 16:04:45,370 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:04:55,543 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:04:55,544 - __main__ - INFO - Пользователь 1931456076: 📍 Москва
+2025-12-09 16:04:55,559 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:55,570 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:04:55,573 - advanced_bot - INFO - User 1931456076: 'Москва' -> intent: city_input, confidence: 0.6
+2025-12-09 16:04:55,873 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:07,303 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:07,305 - __main__ - INFO - Пользователь 1931456076: завтра
+2025-12-09 16:05:07,318 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:07,328 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:07,332 - advanced_bot - INFO - User 1931456076: 'завтра' -> intent: date_input, confidence: 0.8
+2025-12-09 16:05:07,717 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:15,498 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:15,501 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 16:05:15,517 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:15,524 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:15,525 - advanced_bot - INFO - User 1931456076: '1' -> intent: booking, confidence: 1.0
+2025-12-09 16:05:15,828 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:22,716 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:22,717 - __main__ - INFO - Пользователь 1931456076: да
+2025-12-09 16:05:22,763 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:22,802 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:22,805 - advanced_bot - INFO - User 1931456076: 'да' -> intent: city_input, confidence: 0.6
+2025-12-09 16:05:23,219 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:34,019 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:34,023 - __main__ - INFO - Пользователь 1931456076: 📋 Мои брони
+2025-12-09 16:05:34,041 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:34,074 - __main__ - ERROR - Ошибка получения бронирований: 'Booking' object has no attribute 'num_people'
+2025-12-09 16:05:34,355 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:44,535 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:44,537 - __main__ - INFO - Пользователь 1931456076: 4
+2025-12-09 16:05:44,551 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:44,561 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:44,564 - advanced_bot - INFO - User 1931456076: '4' -> intent: view_ticket, confidence: 1.0
+2025-12-09 16:05:44,865 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:05:53,051 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:05:53,052 - __main__ - INFO - Пользователь 1931456076: отмена
+2025-12-09 16:05:53,071 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:53,082 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:05:53,085 - advanced_bot - INFO - User 1931456076: 'отмена' -> intent: cancel, confidence: 0.9696850539762158
+2025-12-09 16:05:53,408 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:01,374 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:01,377 - __main__ - INFO - Пользователь 1931456076: 5
+2025-12-09 16:06:01,389 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:01,398 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:01,399 - advanced_bot - INFO - User 1931456076: '5' -> intent: stats, confidence: 1.0
+2025-12-09 16:06:01,810 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:12,115 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:12,117 - __main__ - INFO - Пользователь 1931456076: меню
+2025-12-09 16:06:12,122 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:12,131 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:12,133 - advanced_bot - INFO - User 1931456076: 'меню' -> intent: menu, confidence: 0.8155854381717647
+2025-12-09 16:06:12,655 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:18,073 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:18,075 - __main__ - INFO - Пользователь 1931456076: 4
+2025-12-09 16:06:18,089 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:18,097 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:18,099 - advanced_bot - INFO - User 1931456076: '4' -> intent: view_ticket, confidence: 1.0
+2025-12-09 16:06:18,402 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:29,781 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:29,784 - __main__ - INFO - Пользователь 1931456076: меню
+2025-12-09 16:06:29,795 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:29,813 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:29,816 - advanced_bot - INFO - User 1931456076: 'меню' -> intent: menu, confidence: 0.7663878620691359
+2025-12-09 16:06:30,145 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:36,296 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:36,297 - __main__ - INFO - Пользователь 1931456076: корзина
+2025-12-09 16:06:36,311 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:36,322 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:36,324 - advanced_bot - INFO - User 1931456076: 'корзина' -> intent: city_input, confidence: 0.6
+2025-12-09 16:06:36,611 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:43,790 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:43,791 - __main__ - INFO - Пользователь 1931456076: 2
+2025-12-09 16:06:43,804 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:43,811 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:43,813 - advanced_bot - INFO - User 1931456076: '2' -> intent: scenarios, confidence: 1.0
+2025-12-09 16:06:44,112 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:06:49,969 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:06:49,971 - __main__ - INFO - Пользователь 1931456076: 7
+2025-12-09 16:06:49,986 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:49,994 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:06:49,996 - advanced_bot - INFO - User 1931456076: '7' -> intent: people_input, confidence: 0.8
+2025-12-09 16:06:50,292 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:07:02,508 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:07:02,511 - __main__ - INFO - Пользователь 1931456076: 6
+2025-12-09 16:07:02,516 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:07:02,525 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:07:02,527 - advanced_bot - INFO - User 1931456076: '6' -> intent: people_input, confidence: 0.8
+2025-12-09 16:07:02,819 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:07:33,637 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:08:04,721 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:08:35,814 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:09:06,896 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:09:37,986 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:10:09,074 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:10:40,162 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:11:11,246 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:11:42,342 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:12:13,421 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:12:44,509 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:13:15,611 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:13:46,700 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:14:17,784 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:14:48,869 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:15:19,963 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:15:51,057 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:16:01,024 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:16:01,028 - telegram.ext.Application - INFO - Application is stopping. This might take a moment.
+2025-12-09 16:16:01,031 - telegram.ext.Application - INFO - Application.stop() complete
+2025-12-09 16:16:03,561 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:16:03,564 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:16:03,568 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:16:03,973 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 16:16:04,061 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 16:16:04,066 - telegram.ext.Application - INFO - Application started
+2025-12-09 16:16:25,122 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:16:32,092 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:16:32,093 - __main__ - INFO - Пользователь 1931456076: ℹ️ Помощь
+2025-12-09 16:16:32,107 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:18:55,307 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:18:55,310 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:18:55,313 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:18:55,714 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 16:18:55,795 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 16:18:55,800 - telegram.ext.Application - INFO - Application started
+2025-12-09 16:19:07,484 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:07,486 - __main__ - INFO - Пользователь 1931456076: 🚂 Новое бронирование
+2025-12-09 16:19:07,498 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:07,508 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:07,512 - advanced_bot - INFO - User 1931456076: 'новое' -> intent: city_input, confidence: 0.6
+2025-12-09 16:19:08,529 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:17,184 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:17,185 - __main__ - INFO - Пользователь 1931456076: 🚂 Новое бронирование
+2025-12-09 16:19:17,197 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:17,206 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:17,207 - advanced_bot - INFO - User 1931456076: 'новое' -> intent: city_input, confidence: 0.6
+2025-12-09 16:19:17,493 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:22,284 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:22,286 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 16:19:22,297 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:22,303 - __main__ - ERROR - Ошибка обработки сообщения: VIEW_SCENARIO_DETAIL
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 925, in handle_message
+    elif session['state'] == DialogState.VIEW_SCENARIO_DETAIL:
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\enum.py", line 767, in __getattr__
+    raise AttributeError(name) from None
+AttributeError: VIEW_SCENARIO_DETAIL
+2025-12-09 16:19:22,457 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:25,020 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:25,033 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:25,037 - __main__ - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:25,175 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:32,605 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:32,606 - __main__ - INFO - Пользователь 1931456076: 🚂 Новое бронирование
+2025-12-09 16:19:32,619 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:32,628 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:32,629 - advanced_bot - INFO - User 1931456076: 'новое' -> intent: city_input, confidence: 0.6
+2025-12-09 16:19:32,918 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:35,453 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:35,454 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 16:19:35,471 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:35,477 - __main__ - ERROR - Ошибка обработки сообщения: VIEW_SCENARIO_DETAIL
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 925, in handle_message
+    elif session['state'] == DialogState.VIEW_SCENARIO_DETAIL:
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\enum.py", line 767, in __getattr__
+    raise AttributeError(name) from None
+AttributeError: VIEW_SCENARIO_DETAIL
+2025-12-09 16:19:35,986 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:48,955 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:48,958 - __main__ - INFO - Пользователь 1931456076: 📍 Москва
+2025-12-09 16:19:49,012 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:49,088 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:49,127 - advanced_bot - INFO - User 1931456076: 'Москва' -> intent: city_input, confidence: 0.6
+2025-12-09 16:19:49,442 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:52,402 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:52,404 - __main__ - INFO - Пользователь 1931456076: 🚂 Новое бронирование
+2025-12-09 16:19:52,438 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:52,485 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:52,487 - advanced_bot - INFO - User 1931456076: 'новое' -> intent: city_input, confidence: 0.6
+2025-12-09 16:19:52,762 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:19:57,149 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:19:57,150 - __main__ - INFO - Пользователь 1931456076: 🎁 Акции
+2025-12-09 16:19:57,262 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:57,303 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:19:57,304 - advanced_bot - INFO - User 1931456076: 'акции' -> intent: promotions, confidence: 0.7766883841352676
+2025-12-09 16:19:57,664 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:20:00,371 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:20:00,373 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 16:20:00,430 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 16:20:00,436 - __main__ - ERROR - Ошибка обработки сообщения: VIEW_SCENARIO_DETAIL
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 925, in handle_message
+    elif session['state'] == DialogState.VIEW_SCENARIO_DETAIL:
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\enum.py", line 767, in __getattr__
+    raise AttributeError(name) from None
+AttributeError: VIEW_SCENARIO_DETAIL
+2025-12-09 16:20:00,585 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 16:20:31,551 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:21:07,395 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:21:38,475 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:22:09,560 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:22:11,919 - __main__ - ERROR - Ошибка в боте: httpx.ReadError: 
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 136, in handle_async_request
+    raise exc
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 106, in handle_async_request
+    ) = await self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 177, in _receive_response_headers
+    event = await self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 217, in _receive_event
+    data = await self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_backends\anyio.py", line 32, in read
+    with map_exceptions(exc_map):
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 127, in do_action
+    action_cb_task.result()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_updater.py", line 340, in polling_action_cb
+    updates = await self.bot.get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 676, in get_updates
+    updates = await super().get_updates(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 4780, in get_updates
+    await self._post(
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_httpxrequest.py", line 303, in do_request
+    raise NetworkError(f"httpx.{err.__class__.__name__}: {err}") from err
+telegram.error.NetworkError: httpx.ReadError: 
+2025-12-09 16:22:43,788 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:23:14,875 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:23:45,957 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:24:17,038 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:24:48,142 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:25:19,228 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:25:50,317 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:26:21,427 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:26:52,516 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:27:23,640 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:27:54,780 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:28:25,880 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:28:56,990 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:29:28,089 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:29:59,184 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 16:30:23,071 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:30:23,075 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:30:23,079 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 16:30:23,472 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 16:30:23,562 - telegram.ext - ERROR - Network Retry Loop (Bootstrap Initialize Application): Failed run number 0 of 0. Aborting.
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 135, in handle_async_request
+    await self._response_closed()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 250, in _response_closed
+    await self.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\anyio\streams\tls.py", line 234, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\anyio\_backends\_asyncio.py", line 1323, in aclose
+    self._transport.close()
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 108, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 758, in call_soon
+    self._check_closed()
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 519, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 109, in do_action
+    await action_cb()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py", line 489, in initialize
+    await self.bot.initialize()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 318, in initialize
+    await super().initialize()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 854, in initialize
+    await self.get_me()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 1999, in get_me
+    return await super().get_me(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 985, in get_me
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 317, in _request_wrapper
+    raise NetworkError(f"Unknown error in HTTP implementation: {exc!r}") from exc
+telegram.error.NetworkError: Unknown error in HTTP implementation: RuntimeError('Event loop is closed')
+2025-12-09 16:30:23,629 - __main__ - ERROR - Критическая ошибка запуска бота: Unknown error in HTTP implementation: RuntimeError('Event loop is closed')
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 305, in _request_wrapper
+    code, payload = await self.do_request(
+                    ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_httpxrequest.py", line 279, in do_request
+    res = await self._client.request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1540, in request
+    return await self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\connection.py", line 103, in handle_async_request
+    return await self._connection.handle_async_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 135, in handle_async_request
+    await self._response_closed()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 250, in _response_closed
+    await self.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_async\http11.py", line 258, in aclose
+    await self._network_stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\httpcore\_backends\anyio.py", line 53, in aclose
+    await self._stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\anyio\streams\tls.py", line 234, in aclose
+    await self.transport_stream.aclose()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\anyio\_backends\_asyncio.py", line 1323, in aclose
+    self._transport.close()
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\proactor_events.py", line 108, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 758, in call_soon
+    self._check_closed()
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 519, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 1195, in main
+    application.run_polling(
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py", line 839, in run_polling
+    return self.__run(
+           ^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py", line 1054, in __run
+    loop.run_until_complete(self._bootstrap_initialize(max_retries=bootstrap_retries))
+  File "C:\Users\GL 72 7QF\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 650, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py", line 1014, in _bootstrap_initialize
+    await network_retry_loop(
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 134, in network_retry_loop
+    await do_action()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py", line 109, in do_action
+    await action_cb()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py", line 489, in initialize
+    await self.bot.initialize()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 318, in initialize
+    await super().initialize()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 854, in initialize
+    await self.get_me()
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 1999, in get_me
+    return await super().get_me(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 985, in get_me
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 317, in _request_wrapper
+    raise NetworkError(f"Unknown error in HTTP implementation: {exc!r}") from exc
+telegram.error.NetworkError: Unknown error in HTTP implementation: RuntimeError('Event loop is closed')
+2025-12-09 18:37:57,941 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:37:57,945 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:37:57,950 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:38:03,167 - __main__ - ERROR - Критическая ошибка запуска бота: Application.run_polling() got an unexpected keyword argument 'read_timeout'
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 1210, in main
+    application.run_polling(
+TypeError: Application.run_polling() got an unexpected keyword argument 'read_timeout'
+2025-12-09 18:50:10,155 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:50:10,158 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:50:10,161 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:50:10,616 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 18:50:10,781 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 18:50:10,786 - telegram.ext.Application - INFO - Application started
+2025-12-09 18:50:26,167 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:50:26,168 - __main__ - INFO - Пользователь 1931456076: 🚂 Новое бронирование
+2025-12-09 18:50:26,172 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:50:26,486 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:50:31,011 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:50:31,015 - __main__ - INFO - Пользователь 1931456076: Санкт-Петербург 🏛️
+2025-12-09 18:50:31,022 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:50:31,032 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:50:31,037 - advanced_bot - INFO - User 1931456076: 'Санкт-Петербург' -> intent: city_input, confidence: 0.6
+2025-12-09 18:50:31,222 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:50:46,842 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:50:46,844 - __main__ - INFO - Пользователь 1931456076: 2
+2025-12-09 18:50:46,860 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:50:47,169 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:07,571 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:07,576 - __main__ - INFO - Пользователь 1931456076: назад
+2025-12-09 18:51:07,592 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:07,890 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:16,006 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:16,008 - __main__ - INFO - Пользователь 1931456076: 2
+2025-12-09 18:51:16,018 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:16,301 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:26,331 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:26,333 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 18:51:26,342 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:26,596 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 400 Bad Request"
+2025-12-09 18:51:26,597 - __main__ - ERROR - Ошибка обработки сообщения: Can't parse entities: can't find end of the entity starting at byte offset 764
+Traceback (most recent call last):
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegram_sales_bot.py", line 935, in handle_message
+    await update.message.reply_text(
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_message.py", line 2060, in reply_text
+    return await self.get_bot().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 3107, in send_message
+    return await super().send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 1118, in send_message
+    return await self._send_message(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 634, in _send_message
+    result = await super()._send_message(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 819, in _send_message
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 703, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_extbot.py", line 372, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\_bot.py", line 732, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 198, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\request\_baserequest.py", line 375, in _request_wrapper
+    raise exception
+telegram.error.BadRequest: Can't parse entities: can't find end of the entity starting at byte offset 764
+2025-12-09 18:51:26,773 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:33,509 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:33,520 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:33,529 - __main__ - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:33,810 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:43,523 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:43,525 - __main__ - INFO - Пользователь 1931456076: 4
+2025-12-09 18:51:43,532 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:43,858 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:51:49,030 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:51:49,032 - __main__ - INFO - Пользователь 1931456076: 🎁 Акции
+2025-12-09 18:51:49,037 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:51:49,324 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:03,200 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:52:03,204 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 18:52:03,213 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:52:03,575 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:06,841 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:52:06,842 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 18:52:06,851 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:52:06,973 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:10,115 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:52:10,118 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 18:52:10,137 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:52:10,272 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:12,193 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:52:12,195 - __main__ - INFO - Пользователь 1931456076: 1
+2025-12-09 18:52:12,203 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:52:12,330 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:16,761 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:52:16,764 - __main__ - INFO - Пользователь 1931456076: 🎫 Мой билет
+2025-12-09 18:52:16,784 - advanced_bot - INFO - Пользователь 1931456076 сохранен
+2025-12-09 18:52:16,803 - __main__ - ERROR - Ошибка получения бронирований: 'Booking' object has no attribute 'num_people'
+2025-12-09 18:52:17,830 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/sendMessage "HTTP/1.1 200 OK"
+2025-12-09 18:52:48,088 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:53:19,214 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:53:50,305 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:54:21,387 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:54:52,482 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:55:23,567 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:57:09,901 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:57:09,909 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:57:09,922 - advanced_bot - INFO - База данных успешно инициализирована
+2025-12-09 18:57:10,412 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getMe "HTTP/1.1 200 OK"
+2025-12-09 18:57:10,490 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/deleteWebhook "HTTP/1.1 200 OK"
+2025-12-09 18:57:10,494 - telegram.ext.Application - INFO - Application started
+2025-12-09 18:57:40,728 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:58:11,813 - httpx - INFO - HTTP Request: POST https://api.telegram.org/bot8243899616:AAGRDASeRKMAfioV-rMU4r9TZK33Pu1HXwA/getUpdates "HTTP/1.1 200 OK"
+2025-12-09 18:58:12,859 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Updater:start_polling:polling_task' coro=<network_retry_loop() done, defined at C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_utils\networkloop.py:45> wait_for=<Future pending cb=[Task.task_wakeup()]> cb=[Task.task_wakeup()]>
+2025-12-09 18:58:12,896 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Application:8243899616:update_fetcher' coro=<Application._update_fetcher() done, defined at C:\Users\GL 72 7QF\Desktop\7 симестр\Папов\Проект исскуственный интелект\Проект\telegramm_bot\Lib\site-packages\telegram\ext\_application.py:1231> wait_for=<Future cancelled>>
