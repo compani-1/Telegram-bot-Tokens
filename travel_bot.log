@@ -106,3 +106,29 @@
 2025-12-09 21:51:50,799 - advanced_bot - INFO - Бот путешествий инициализирован
 2025-12-09 21:51:50,800 - __main__ - INFO - Запуск Telegram Travel Bot...
 2025-12-09 21:52:52,121 - __main__ - INFO - Новый пользователь: Миша Лукин
+2025-12-10 12:54:37,385 - advanced_bot - INFO - Бот путешествий инициализирован
+2025-12-10 12:54:37,386 - __main__ - INFO - Запуск Telegram Travel Bot...
+2025-12-10 12:54:57,071 - __main__ - INFO - Новый пользователь: Миша Лукин
+2025-12-10 13:07:29,327 - __main__ - INFO - Новый пользователь: Миша Лукин
+2025-12-10 13:20:53,558 - TeleBot - ERROR - Infinity polling: polling exited
+2025-12-10 13:20:53,561 - TeleBot - ERROR - Break infinity polling
+2025-12-10 13:20:55,524 - advanced_bot - INFO - База данных инициализирована
+2025-12-10 13:20:55,527 - advanced_bot - INFO - TravelBot инициализирован
+2025-12-10 13:20:55,527 - __main__ - INFO - Запуск Telegram Travel Bot...
+2025-12-10 13:21:27,266 - TeleBot - ERROR - Infinity polling: polling exited
+2025-12-10 13:21:27,267 - TeleBot - ERROR - Break infinity polling
+2025-12-10 13:21:28,695 - advanced_bot - INFO - База данных инициализирована
+2025-12-10 13:21:28,697 - advanced_bot - INFO - TravelBot инициализирован
+2025-12-10 13:21:28,698 - __main__ - INFO - Запуск Telegram Travel Bot...
+2025-12-10 13:21:48,306 - advanced_bot - INFO - Пользователь 1931456076 сохранен в БД
+2025-12-10 13:21:48,308 - __main__ - INFO - Новый пользователь: Миша Лукин
+2025-12-10 13:27:05,506 - TeleBot - ERROR - Infinity polling: polling exited
+2025-12-10 13:27:05,508 - TeleBot - ERROR - Break infinity polling
+2025-12-10 13:27:07,468 - advanced_bot - INFO - База данных инициализирована
+2025-12-10 13:27:07,472 - advanced_bot - INFO - TravelBot инициализирован
+2025-12-10 13:27:07,472 - __main__ - INFO - Запуск Telegram Travel Bot...
+2025-12-10 13:28:08,099 - __main__ - INFO - Пользователь 1931456076 подтвердил заказ
+2025-12-10 13:28:08,116 - advanced_bot - INFO - Заказ TK132808DXQHSN сохранен в БД
+2025-12-10 13:28:08,126 - advanced_bot - INFO - Пользователь 1931456076 сохранен в БД
+2025-12-10 13:28:08,128 - advanced_bot - INFO - Заказ подтвержден: TK132808DXQHSN для пользователя 1931456076
+2025-12-10 13:28:08,238 - __main__ - INFO - Заказ подтвержден для пользователя 1931456076
